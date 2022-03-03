@@ -1,31 +1,100 @@
 body {
   height: 100vh;
-  background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"), url('assets/stars.png');
-  background-position:  bottom, top, center;
+  margin: 0;
+  background-image: url("assets/stars.png");
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: contain, contain, cover;
+  background-size: cover;
   color: white;
+  overflow: hidden;
 }
 
 h1 {
-  text-align: center;
-  margin: 0 auto;
-  color: transparent;
-  width: 50vw;
-  height: 10vw;
+  width: 100%;
+  height: 80px;
+  margin: 10px auto 20px;
   background: url(assets/logo.png) no-repeat center;
   background-size: contain;
+  color: transparent;
 }
 
-.games {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5vw;
-}
-
-.game-link {
+#game {
   display: block;
-  color: white;
-  width: 20vw;
+  width: calc(100vw - 20px);
+  height: calc(100vw - 20px);
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.controls {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0px;
+  height: 200px;
+  width: 200px;
+  background: url(assets/arrows.png) center no-repeat;
+  background-size: cover;
+  background-blend-mode: color-burn;
+}
+
+@media (min-width: 810px) {
+  body {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"), url("assets/stars.png");
+    background-position: bottom, top, center;
+    background-repeat: no-repeat;
+    background-size: contain, contain, cover;
+    color: white;
+    overflow: hidden;
+  }
+
+  h1 {
+    width: 100%;
+    height: 15vw;
+    margin: 0;
+    background: url(assets/logo.png) no-repeat center;
+    background-size: contain;
+    color: transparent;
+  }
+
+  .canvas-holder {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+  }
+
+  #game {
+    box-shadow: 0px 5px 20px 5px #000000;
+    width: 512px;
+    height: 512px;
+  }
+
+  .canvas-holder:after {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    content: "";
+    border-bottom: 100px solid rgba(0, 0, 0, 0.3);
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    height: 0;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .controls {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    height: 300px;
+    width: 300px;
+    background: url(assets/arrows.png) center no-repeat;
+    background-size: cover;
+    background-blend-mode: color-burn;
+  }
 }
