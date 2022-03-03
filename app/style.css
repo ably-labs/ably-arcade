@@ -90,11 +90,13 @@ h1 {
   .controls {
     position: absolute;
     right: 20px;
+    left: auto;
     bottom: 20px;
     height: 300px;
     width: 300px;
     background: url(assets/arrows.png) center no-repeat;
     background-size: cover;
     background-blend-mode: color-burn;
+    transform: translate(0);
   }
 }
