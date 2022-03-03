@@ -1,3 +1,31 @@
 body {
-  background-color: antiquewhite;
+  height: 100vh;
+  background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"), url('assets/stars.png');
+  background-position:  bottom, top, center;
+  background-repeat: no-repeat;
+  background-size: contain, contain, cover;
+  color: white;
+}
+
+h1 {
+  text-align: center;
+  margin: 0 auto;
+  color: transparent;
+  width: 50vw;
+  height: 10vw;
+  background: url(assets/logo.png) no-repeat center;
+  background-size: contain;
+}
+
+.games {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5vw;
+}
+
+.game-link {
+  display: block;
+  color: white;
+  width: 20vw;
 }

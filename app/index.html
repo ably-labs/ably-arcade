@@ -9,12 +9,18 @@
 </head>
 
 <body>
-    <h1>I am a running vite app.</h1>
-    <div>
-        This application uses Azure functions to host an API, and a plain HTML application to render the response.
-    </div>
+    <h1>Ably arcade</h1>
+    <section class="games">
+        <a class="game-link" href="#">Space invaders</a>
+        <a class="game-link" href="#">Rock paper scissors</a>
+        <a class="game-link" href="#">Flappy birbs</a>
+        <a class="game-link" href="#">Tetris</a>
+    </section>
     <div id="response">
         Loading API response here...
+    </div>
+    <div>
+        <canvas id="game" width="512" height="512"></canvas>
     </div>
 </body>
 

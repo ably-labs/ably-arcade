@@ -20,7 +20,9 @@
     "ts-jest": "^27.0.7",
     "typescript": "^3.9.10"
   },
-  "dependencies": {},
+  "dependencies": {
+    "dotenv": "^16.0.0"
+  },
   "jest": {
     "testEnvironment": "node",
     "verbose": false,
