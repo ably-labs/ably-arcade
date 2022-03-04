@@ -24,6 +24,8 @@ h1 {
   height: calc(100vw - 20px);
   object-fit: contain;
   margin: 0 auto;
+  max-height: 700px;
+  max-width: 700px;
 }
 
 .controls {
@@ -38,44 +40,44 @@ h1 {
   background-blend-mode: color-burn;
 }
 
-#up {
+.dpad {
   position: absolute;
+  background-color: transparent;
+  border: 0;
+  color: transparent;
+
+}
+
+#up {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 120px;
-  visibility: hidden;
+  width: 50px;
+  height: 80px;
 }
 #right {
-  position: absolute;
   right: 0;
   top: 50%;
-  transform: translatey(-50%);
-  width: 120px;
-  height: 80px;
-  visibility: hidden;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 50px;
 }
 #down {
-  position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 80px;
-  height: 120px;
-  visibility: hidden;
+  width: 50px;
+  height: 80px;
 }
 #left {
-  position: absolute;
   left: 0;
   top: 50%;
-  transform: translatey(-50%);
-  width: 120px;
-  height: 80px;
-  visibility: hidden;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 50px;
 }
 
-@media (min-width: 810px) {
+@media (min-width: 1200px) {
   body {
     display: grid;
     place-items: center;
@@ -136,4 +138,36 @@ h1 {
     background-blend-mode: color-burn;
     transform: translate(0);
   }
+  #up {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 120px;
+}
+#right {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translatey(-50%);
+  width: 120px;
+  height: 80px;
+}
+#down {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 120px;
+}
+#left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translatey(-50%);
+  width: 120px;
+  height: 80px;
+}
 }

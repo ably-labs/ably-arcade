@@ -15,14 +15,28 @@ export interface RenderContext {
 
 export class Renderer {
 
+    public startButton: HTMLButtonElement;
+
     private ctx: CanvasRenderingContext2D;
     private loader: Loader;
     
     private tileAtlas: HTMLImageElement;
     private playerImage: HTMLImageElement;
+    
+    private fullScreenMessage: string;    
 
-    constructor(canvasTarget: HTMLCanvasElement) {
-        this.ctx = canvasTarget.getContext('2d');
+    constructor(gameRoot: HTMLElement, triggerGameStart: () => void = null) {
+        const canvas = document.createElement('canvas');
+        canvas.id = "game";
+        canvas.width = 512;
+        canvas.height = 512;
+        gameRoot.appendChild(canvas);
+
+        this.startButton = document.createElement('button');
+        this.startButton.innerText = "Start Round!";
+        gameRoot.appendChild(this.startButton);
+
+        this.ctx = canvas.getContext('2d');
         this.loader = new Loader();
     }
 
@@ -47,6 +61,10 @@ export class Renderer {
     
         if (!playerIsAlive) {
             this.writeText("You died! You'll respawn soon...");
+        }
+
+        if (this.fullScreenMessage){            
+            this.writeText(this.fullScreenMessage);
         }
     }
     
@@ -113,43 +131,30 @@ export class Renderer {
         }
     }
 
-    public writeText(message: string) {
+    public writeText(message: string) {        
         this.ctx.font = '20px serif';
         this.ctx.fillText(message, 100, 100);
+    }
+
+    public async display(message: string, duration: number) {
+        this.fullScreenMessage = message;
+        await wait(duration);
+        this.fullScreenMessage = null;
     }
 
     public async renderPlayers(renderContext: RenderContext) {
         const { game, players } = renderContext;
             
-        const scores = [];
-    
         for (const player of players) {
             if (player.data == undefined) {
                 continue;
             }
-            scores.push({ 'name': player.data.name, 'score': player.data.score});
     
             if (!player.data.alive && game.waitingForDeath.has(player.data.id)) {
                 game.waitingForDeath.delete(player.data.id);
             }
             this.drawPlayer(renderContext, player.data);
         }
-
-        this.clearScoreboard();
-
-        const compare = (a, b) => {
-            if (a.score < b.score){
-              return -1;
-            }
-            if (a.score > b.score){
-              return 1;
-            }
-            return 0;
-        };
-
-        scores.sort(compare);
-
-        this.updateList(scores);
     }
 
     public drawPlayer(renderContext: RenderContext, player) {
@@ -176,22 +181,7 @@ export class Renderer {
 
         this.ctx.font = '12px serif';
         this.ctx.fillText(player.name, x, y - 15);
-    }
-    
-    public clearScoreboard() {
-        // document.getElementById("scoreboard").innerHTML = ""; // um!
-    }
-
-    public updateList(ranks) {
-        /*let ul = document.getElementById("scoreboard"); 
-        for (let i=0; i < ranks.length; i++) {
-            let li = document.createElement("li");
-            let span = document.createElement("span");
-            span.appendChild(document.createTextNode(ranks[i].score));
-            li.appendChild(document.createTextNode(ranks[i].name));
-            li.appendChild(span);
-            ul.appendChild(li);
-        }*/
-    }
-    
+    }    
 }
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));

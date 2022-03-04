@@ -1,32 +1,31 @@
-import { Realtime, Types } from 'ably/promises';
+import { Realtime, Types } from 'ably';
 import { Player } from './Player';
+
+export interface ControlMessage{
+    command: string;
+    duration: any;
+}
 
 export class AblyHandler {
     
-    public shouldChangeColor: boolean;
     public get connectionState() { 
         return this.connection.connection.state;
     }
-    
-    private player: Player;
-    private gameId: string;
-    
-    private connection: any;
-    private stateChannel: any;
+        
+    private connection: Types.RealtimePromise;
+    private stateChannel: Types.RealtimeChannelPromise;
+
+    public onControlMessage: (msg: ControlMessage) => void = () => {};
 
     constructor(player: Player, gameId: string) {
-        this.player = player;
-        this.gameId = gameId;
-
         this.connection = new Realtime.Promise({authUrl: '/api/ably-token-request' });
         this.stateChannel = this.connection.channels.get('states:' + gameId);
-        this.shouldChangeColor = false;
-
-        this.stateChannel.subscribe('update-colors', (msg) => {
-            this.shouldChangeColor = true;
+        
+        this.stateChannel.subscribe("control-message", (msg: Types.Message) => {
+            this.onControlMessage(msg.data);
         });
 
-        this.stateChannel.subscribe(player.id, (msg) => {
+        this.stateChannel.subscribe(player.id, (msg: Types.Message) => {
             player.alive = false;
             this.updateState(player);
 
@@ -35,35 +34,27 @@ export class AblyHandler {
             }, 3000);
         });
 
-        this.joinState(this.copyWithoutMap(player));
+        this.stateChannel.presence.enter(this.toPlayerMetadata(player));
     }
 
-    public sendMessage(name, message) {
-        this.stateChannel.publish(name, message);
+    public sendControlMessage(messageBody: ControlMessage) {
+        this.stateChannel.publish("control-message", messageBody);
     }
 
-    public changeColors() {
-        this.stateChannel.publish('update-colors', null);
+    public killPlayer(playerId: string) {
+        this.stateChannel.publish(playerId, 'kill' as any);
     }
 
-    public joinState(player) {
-        this.stateChannel.presence.enter(this.copyWithoutMap(player));
+    public updateState(player: Player) {
+        this.stateChannel.presence.update(this.toPlayerMetadata(player));
     }
 
-    public updateState(player) {
-        this.stateChannel.presence.update(this.copyWithoutMap(player));
-    }
-
-    public async getState(playerName) {
-        return await this.stateChannel.presence.get({ clientId: playerName});
-    }
-
-    public async playerPositions() {
+    public async playerMetadata() {
         return await this.stateChannel.presence.get();
     }
     
-    private copyWithoutMap(player) {
-        var newPlayer = {
+    private toPlayerMetadata(player) {
+        return {
             'id' : player.id,
             'x' : player.x,
             'y' : player.y,
@@ -73,7 +64,6 @@ export class AblyHandler {
             'color' : player.color,
             'alive': player.alive,
             'score': player.score
-        }
-        return newPlayer;
+        };
     }    
 }

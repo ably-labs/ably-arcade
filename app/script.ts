@@ -1,15 +1,19 @@
 import { Game } from "./games/rps/Game";
-import { IGame } from "./games/IGame";
+import { IGame, GameEndSummary } from "./games/IGame";
 import { GameRunner } from "./games/GameRunner";
 import { ArcadeUI } from "./ArcadeUI";
 
 console.log("Oh hai! 🖤");
 
 const arcadeUi = new ArcadeUI();
-const game = new Game("my-game-id", arcadeUi.canvas);
+const game = new Game("my-game-id", arcadeUi.gameRoot);
 const runner = new GameRunner(game);
 
 arcadeUi.bind(runner);
-runner.run();
+
+runner.run((summary: GameEndSummary) => {
+    arcadeUi.clearDisplay();
+    arcadeUi.showScoreboard(summary);
+});
 
 export {};

@@ -6,9 +6,16 @@ export interface TickContext {
     elapsed: number;
 }
 
+export interface Scoreboard {
+    name: string;
+    score: number;
+}
+
 export interface GameEndSummary {
     playerId: string;
+    playerName: string;
     score: number;
+    scores: Scoreboard[];
 }
 
 export interface IGame {

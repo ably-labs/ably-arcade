@@ -2,7 +2,7 @@ import { Keyboard } from "../Keyboard";
 import { Camera } from "./Camera";
 import { Map } from "./Map";
 import { Player } from "./Player";
-import { AblyHandler } from "./AblyHandler";
+import { AblyHandler, ControlMessage } from "./AblyHandler";
 import { Renderer } from "./Renderer";
 import { IGame, GameEndSummary, TickContext } from "../IGame";
 
@@ -10,7 +10,7 @@ export class Game implements IGame {
     public gameId: string;
     public tickRate: number;
     public myPlayer: Player;
-    public gameEnded: (summary: GameEndSummary) => void;
+    public gameEnded: (summary: GameEndSummary) => void = () => {};
 
     public waitingForDeath: Set<string>;
     
@@ -22,11 +22,13 @@ export class Game implements IGame {
 
     private sqrt2: number;
 
-    public constructor(gameId: string, canvasTarget: HTMLCanvasElement) {
+    private shouldChangeColor: boolean;
+
+    public constructor(gameId: string, gameRoot: HTMLElement) {
         this.gameId = gameId;
 
         this.map = new Map(20, 20);
-        this.renderer = new Renderer(canvasTarget);
+        this.renderer = new Renderer(gameRoot);
         this.tickRate = 10;
 
         this.sqrt2 = Math.sqrt(1/2);
@@ -42,21 +44,35 @@ export class Game implements IGame {
         const playerStartX = randomInt(64, 64 * (this.map.cols - 1));
         const playerStartY = randomInt(64, 64 * (this.map.rows - 1));
     
-        this.myPlayer = new Player(this.map, this.playerName, playerStartX, playerStartY);
-        this.ablyHandler = new AblyHandler(this.myPlayer, this.gameId);
-        
+        this.myPlayer = new Player(this.map, this.playerName, playerStartX, playerStartY);       
         this.camera = new Camera(this.map, 512, 512);
         this.camera.follow(this.myPlayer);
         
         this.waitingForDeath = new Set();
     
         setInterval(() => { 
-            this.ablyHandler.shouldChangeColor = true
+            this.shouldChangeColor = true;
         }, 5000);
+
+        this.ablyHandler = new AblyHandler(this.myPlayer, this.gameId);
+        this.ablyHandler.onControlMessage = (msg) => { 
+            this.handleControlMessage(msg)
+        };
+
+        this.renderer.startButton.addEventListener("click", () => {
+            
+            const messageBody: ControlMessage = {
+                command: 'start',
+                duration: 1000 * 60 * 3
+                //duration: 20_000
+            };
+
+            this.ablyHandler.sendControlMessage(messageBody);
+        });
     }
 
     public async render(ctx: TickContext) {
-        const players = await this.ablyHandler.playerPositions();
+        const players = await this.ablyHandler.playerMetadata();
 
         const renderContext = {
             game: this,
@@ -101,8 +117,8 @@ export class Game implements IGame {
             this.ablyHandler.updateState(this.myPlayer);
         }
 
-        if (this.ablyHandler.shouldChangeColor) {
-            this.ablyHandler.shouldChangeColor = false;
+        if (this.shouldChangeColor) {
+            this.shouldChangeColor = false;
             this.myPlayer.newColor();
             this.ablyHandler.updateState(this.myPlayer);
         }
@@ -113,7 +129,7 @@ export class Game implements IGame {
     }
 
     private async checkIfPlayerDied() {
-        let players = await this.ablyHandler.playerPositions();
+        let players = await this.ablyHandler.playerMetadata();
     
         for (const player of players) {
             if (player.data == undefined || !player.data.alive) {
@@ -126,7 +142,7 @@ export class Game implements IGame {
                 && this.playersAreTouching(this.myPlayer, player.data)) {
     
                 this.waitingForDeath.add(player.data.id);
-                this.ablyHandler.sendMessage(player.data.id, 'kill');
+                this.ablyHandler.killPlayer(player.data.id);
                 this.myPlayer.score++;
             }
         }    
@@ -147,5 +163,53 @@ export class Game implements IGame {
         if (player1.y >= (player2.y + player2.height) || player2.y >= (player1.y + player1.height)) return false;
 
         return true;
+    }
+
+    private async handleControlMessage(msg: ControlMessage) {
+        if (msg.command === "start"){ 
+            await this.renderer.display("Game about to start!", 1000);
+            await this.renderer.display("3...", 1000);
+            await this.renderer.display("2...", 1000);
+            await this.renderer.display("1...", 1000);
+            await this.renderer.display("Go!", 500);
+
+            this.myPlayer.score = 0;
+            this.ablyHandler.updateState(this.myPlayer);
+
+            setTimeout(() => {
+                this.endGame();
+            }, msg.duration);
+        }
+    }
+
+    private async endGame() {
+        const players = await this.ablyHandler.playerMetadata();        
+        const scores = this.generateScores(players);
+
+        this.gameEnded({
+            playerId: this.myPlayer.id,
+            playerName: this.myPlayer.name,
+            score: this.myPlayer.score,
+            scores: scores,
+        });
+    }
+
+    private generateScores(players) {
+        const scores = [];
+        
+        for (const player of players) {
+            scores.push({ 'name': player.data.name, 'score': player.data.score});
+        }
+
+        scores.sort((a, b) => {
+            if (a.score < b.score){
+              return -1;
+            }
+            if (a.score > b.score){
+              return 1;
+            }
+            return 0;
+        });
+        return scores;
     }
 }

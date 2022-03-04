@@ -1,5 +1,7 @@
 import { Keyboard } from "./Keyboard";
-import { IGame } from "./IGame";
+import { IGame, GameEndSummary } from "./IGame";
+
+type GameState = "not-started" | "running" | "completed";
 
 export class GameRunner {
 
@@ -10,7 +12,9 @@ export class GameRunner {
     private now: number;
     private then: number;
     private elapsed: number;
-    private fpsInterval: number;  
+    private fpsInterval: number;
+
+    public state: GameState = "not-started";
     
     public get keyboard() {
         return this.keyboardState;
@@ -25,7 +29,8 @@ export class GameRunner {
         this.keyboardState = new Keyboard();
     }
 
-    public async run() { 
+    public async run(onCompletion: (summary: GameEndSummary) => void) { 
+        this.state = "running";
         this.tick = 0;
         this.then = Date.now();
         
@@ -36,7 +41,15 @@ export class GameRunner {
 
         window.requestAnimationFrame(() => { 
             this.tickGame(); 
-        }); 
+        });
+
+        this.game.gameEnded = (summary: GameEndSummary) => {
+            this.state = "completed";
+
+            if(onCompletion) {
+                onCompletion(summary);
+            }
+        };
     }
 
     private tickGame() {
