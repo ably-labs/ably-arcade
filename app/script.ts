@@ -1,14 +1,15 @@
 import { Game } from "./games/rps/Game";
+import { IGame } from "./games/IGame";
+import { GameRunner } from "./games/GameRunner";
+import { ArcadeUI } from "./ArcadeUI";
 
 console.log("Oh hai! 🖤");
 
-const canvas = document.getElementById("game") as HTMLCanvasElement;
-const rpsInstance = new Game("my-game-id", canvas);
+const arcadeUi = new ArcadeUI();
+const game = new Game("my-game-id", arcadeUi.canvas);
+const runner = new GameRunner(game);
 
-(async () => {
-  await rpsInstance.preStart();
-  rpsInstance.start();
-  rpsInstance.tick();
-})();
+arcadeUi.bind(runner);
+runner.run();
 
 export {};

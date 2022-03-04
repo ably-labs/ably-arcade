@@ -2,23 +2,24 @@ import { Realtime, Types } from 'ably/promises';
 import { Player } from './Player';
 
 export class AblyHandler {
+    
+    public shouldChangeColor: boolean;
+    public get connectionState() { 
+        return this.connection.connection.state;
+    }
+    
     private player: Player;
     private gameId: string;
     
     private connection: any;
     private stateChannel: any;
-    private shouldChangeColor: boolean;
 
     constructor(player: Player, gameId: string) {
         this.player = player;
         this.gameId = gameId;
 
         this.connection = new Realtime.Promise({authUrl: '/api/ably-token-request' });
-        /*plugins: {
-            vcdiff: vcdiffDecoder
-        }*/
-
-        this.stateChannel = this.connection.channels.get('states:' + gameId /*, { params: { delta: 'vcdiff' } }*/);
+        this.stateChannel = this.connection.channels.get('states:' + gameId);
         this.shouldChangeColor = false;
 
         this.stateChannel.subscribe('update-colors', (msg) => {

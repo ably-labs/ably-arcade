@@ -43,7 +43,7 @@ export class Player {
         this.color = Math.floor(Math.random() * 3);
     }
 
-    public move(delta, dirx, diry) {
+    public move(dirx, diry) {
         if (!this.alive) {
             return;
         }

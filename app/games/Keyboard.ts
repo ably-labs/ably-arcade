@@ -14,6 +14,13 @@ export class Keyboard {
             this._keys[key] = false;
         }.bind(this));
     }
+
+    public simulateKeyPress(keyCode: number, duration: number = 250) {
+        this._keys[keyCode] = true;
+        setTimeout(() => {
+            this._keys[keyCode] = false;
+        }, duration);
+    }
     
     private onKeyDown(event) {
         var keyCode = event.keyCode;
@@ -31,7 +38,7 @@ export class Keyboard {
         }
     };
     
-    public isDown (keyCode) {
+    public isPressed (keyCode) {
         /*if (!keyCode in this._keys) {
             throw new Error('Keycode ' + keyCode + ' is not being listened to');
         }*/

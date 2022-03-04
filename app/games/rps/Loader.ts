@@ -23,7 +23,7 @@ export class Loader {
         return d;
     }
 
-    public getImage(key: string) {
+    public getImage(key: string): HTMLImageElement {
         return (key in this.images) ? this.images[key] : null;
     }
 }

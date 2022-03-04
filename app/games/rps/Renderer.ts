@@ -1,18 +1,28 @@
 import { Game } from "./Game";
 import { Loader } from "./Loader";
+import { Camera } from "./Camera";
+import { Map } from "./Map";
+
+export interface RenderContext {
+    game: Game;
+    map: Map;
+    camera: Camera;
+    playerIsAlive: boolean;
+    connectionState: string;
+    players: any;
+    tick: number;
+}
 
 export class Renderer {
 
-    private ctx: any;
-    private game: Game;
+    private ctx: CanvasRenderingContext2D;
     private loader: Loader;
     
-    private tileAtlas: any;
-    private playerImage: any;
+    private tileAtlas: HTMLImageElement;
+    private playerImage: HTMLImageElement;
 
-    constructor(game: Game, canvasTarget: HTMLCanvasElement) {
+    constructor(canvasTarget: HTMLCanvasElement) {
         this.ctx = canvasTarget.getContext('2d');
-        this.game = game;    
         this.loader = new Loader();
     }
 
@@ -22,25 +32,44 @@ export class Renderer {
         this.tileAtlas = this.loader.getImage('tiles');        
         this.playerImage = this.loader.getImage('player');
     }
+
+    public render(renderContext: RenderContext) {
+        const { playerIsAlive, connectionState } = renderContext;
+
+        this.clear();
+        this.drawLayer(renderContext);
+
+        if (connectionState == "connected") {
+            this.renderPlayers(renderContext);
+        }
     
-    public drawGrid = function () {
-        let width = this.game.map.cols * this.game.map.tileSize;
-        let height = this.game.map.rows * this.game.map.tileSize;
+        this.drawGrid(renderContext);
+    
+        if (!playerIsAlive) {
+            this.writeText("You died! You'll respawn soon...");
+        }
+    }
+    
+    public drawGrid(renderContext: RenderContext) {
+        const { camera, map } = renderContext;
+
+        let width = map.cols * map.tileSize;
+        let height = map.rows * map.tileSize;
         
-        let x, y;
+        let x: number, y: number;
         
-        for (let r = 0; r < this.game.map.rows; r++) {
-            x = - this.game.camera.x;
-            y = r * this.game.map.tileSize - this.game.camera.y;
+        for (let r = 0; r < map.rows; r++) {
+            x = - camera.x;
+            y = r * map.tileSize - camera.y;
             this.ctx.beginPath();
             this.ctx.moveTo(x, y);
             this.ctx.lineTo(width, y);
             this.ctx.stroke();
         }
 
-        for (let c = 0; c < this.game.map.cols; c++) {
-            x = c * this.game.map.tileSize - this.game.camera.x;
-            y = - this.game.camera.y;
+        for (let c = 0; c < map.cols; c++) {
+            x = c * map.tileSize - camera.x;
+            y = - camera.y;
             this.ctx.beginPath();
             this.ctx.moveTo(x, y);
             this.ctx.lineTo(x, height);
@@ -52,30 +81,32 @@ export class Renderer {
         this.ctx.clearRect(0, 0, 512, 512);
     }
 
-    public drawLayer(layer: number) {
-        let startCol = Math.floor(this.game.camera.x / this.game.map.tileSize);
-        let endCol = startCol + (this.game.camera.width / this.game.map.tileSize);
-        let startRow = Math.floor(this.game.camera.y / this.game.map.tileSize);
-        let endRow = startRow + (this.game.camera.height / this.game.map.tileSize);
-        let offsetX = -this.game.camera.x + startCol * this.game.map.tileSize;
-        let offsetY = -this.game.camera.y + startRow * this.game.map.tileSize;
+    public drawLayer(renderContext: RenderContext) {
+        const { camera, map } = renderContext;
+        
+        let startCol = Math.floor(camera.x / map.tileSize);
+        let endCol = startCol + (camera.width / map.tileSize);
+        let startRow = Math.floor(camera.y / map.tileSize);
+        let endRow = startRow + (camera.height / map.tileSize);
+        let offsetX = -camera.x + startCol * map.tileSize;
+        let offsetY = -camera.y + startRow * map.tileSize;
     
         for (let c = startCol; c <= endCol; c++) {
             for (let r = startRow; r <= endRow; r++) {
-                let tile = this.game.map.getTile(c, r);
-                let x = (c - startCol) * this.game.map.tileSize + offsetX;
-                let y = (r - startRow) * this.game.map.tileSize + offsetY;
+                let tile = map.getTile(c, r);
+                let x = (c - startCol) * map.tileSize + offsetX;
+                let y = (r - startRow) * map.tileSize + offsetY;
                 if (tile !== 0) { // 0 => empty tile
                     this.ctx.drawImage(
                         this.tileAtlas, // image
-                        (tile - 1) * this.game.map.tileSize, // source x
+                        (tile - 1) * map.tileSize, // source x
                         0, // source y
-                        this.game.map.tileSize, // source width
-                        this.game.map.tileSize, // source height
+                        map.tileSize, // source width
+                        map.tileSize, // source height
                         Math.round(x),  // target x
                         Math.round(y), // target y
-                        this.game.map.tileSize, // target width
-                        this.game.map.tileSize // target height
+                        map.tileSize, // target width
+                        map.tileSize // target height
                     );
                 }
             }
@@ -87,10 +118,9 @@ export class Renderer {
         this.ctx.fillText(message, 100, 100);
     }
 
-    public async renderPlayers() {
-        // draw all enemies
-        const players = await this.game.ablyHandler.playerPositions();
-    
+    public async renderPlayers(renderContext: RenderContext) {
+        const { game, players } = renderContext;
+            
         const scores = [];
     
         for (const player of players) {
@@ -99,11 +129,10 @@ export class Renderer {
             }
             scores.push({ 'name': player.data.name, 'score': player.data.score});
     
-            if (!player.data.alive && this.game.waitingForDeath.has(player.data.id)) {
-                this.game.waitingForDeath.delete(player.data.id);
-                this.game.myPlayer.score++;
+            if (!player.data.alive && game.waitingForDeath.has(player.data.id)) {
+                game.waitingForDeath.delete(player.data.id);
             }
-            this.drawPlayer(player.data);
+            this.drawPlayer(renderContext, player.data);
         }
 
         this.clearScoreboard();
@@ -123,18 +152,20 @@ export class Renderer {
         this.updateList(scores);
     }
 
-    public drawPlayer(player) {
+    public drawPlayer(renderContext: RenderContext, player) {
+        const { camera, map } = renderContext;
+
         if (!player.alive) {
             return;
         }
     
-        let x = player.x - this.game.camera.x;
-        let y = player.y - this.game.camera.y;
+        let x = player.x - camera.x;
+        let y = player.y - camera.y;
     
         this.ctx.drawImage(
             this.playerImage, // image
             player.color * player.width, // source x
-            Math.floor(this.game.frame / 2 % 2) * this.game.map.tileSize,  // source y
+            Math.floor(renderContext.tick / 2 % 2) * map.tileSize,  // source y
             player.width, // source width
             player.height, // source height
             x,
@@ -147,7 +178,7 @@ export class Renderer {
         this.ctx.fillText(player.name, x, y - 15);
     }
     
-    public clearScoreboard(){
+    public clearScoreboard() {
         // document.getElementById("scoreboard").innerHTML = ""; // um!
     }
 
