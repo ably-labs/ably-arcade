@@ -63,7 +63,8 @@ export class AblyHandler {
             'name' : player.name,
             'color' : player.color,
             'alive': player.alive,
-            'score': player.score
+            'score': player.score,
+            'spectator': player.spectator
         };
     }    
 }

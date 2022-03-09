@@ -2,12 +2,35 @@ import { GameRunner } from "./games/GameRunner";
 import { GameEndSummary } from "./games/IGame";
 
 export class ArcadeUI {
+    private arcade: HTMLElement;
     public buttons: Element[];
     public gameRoot: HTMLElement;
+    public spectateButton: HTMLElement;
+
+    public playerName: string;
+    public onSpectatorStart: () => void = () => {};
 
     constructor() {
+      this.playerName = `Anonymous ${Math.floor(Math.random() * 100)}`;
+      this.arcade = document.getElementById("arcade") as HTMLElement;
       this.buttons = [...document.querySelectorAll("[data-keycode]")];
       this.gameRoot = document.getElementById("game-root");
+
+      this.spectateButton = document.getElementById("spectate");
+
+      const spectatorStart = document.getElementById("start");
+      spectatorStart.addEventListener("click", () => {
+        this.onSpectatorStart();
+      });
+
+    }
+
+    public setPlayerName(name: string) {
+      this.playerName = name;
+    }
+
+    public show() {
+      this.arcade.style.display = "block";
     }
 
     public clearDisplay() {
@@ -40,5 +63,9 @@ export class ArcadeUI {
           runner.keyboard.simulateKeyPress(keyCodeNumber) 
         });    
       });
+
+      this.onSpectatorStart = () => {
+        runner.game.startContest();
+      };
     }
 }

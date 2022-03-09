@@ -22,8 +22,9 @@ export interface IGame {
     tickRate: number;
     gameEnded: (summary: GameEndSummary) => void;
 
-    preStart(): Promise<void>;
+    preStart(playerName: string): Promise<void>;
     start();
+    startContest();
     update(ctx: TickContext);
     render(ctx: TickContext);
 }

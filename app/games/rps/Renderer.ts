@@ -14,9 +14,6 @@ export interface RenderContext {
 }
 
 export class Renderer {
-
-    public startButton: HTMLButtonElement;
-
     private ctx: CanvasRenderingContext2D;
     private loader: Loader;
     
@@ -25,16 +22,12 @@ export class Renderer {
     
     private fullScreenMessage: string;    
 
-    constructor(gameRoot: HTMLElement, triggerGameStart: () => void = null) {
+    constructor(gameRoot: HTMLElement, spectator: boolean = false) {
         const canvas = document.createElement('canvas');
         canvas.id = "game";
-        canvas.width = 512;
-        canvas.height = 512;
+        canvas.width = spectator ? 1280 : 512;
+        canvas.height = spectator ? 1280 : 512;
         gameRoot.appendChild(canvas);
-
-        this.startButton = document.createElement('button');
-        this.startButton.innerText = "Start Round!";
-        gameRoot.appendChild(this.startButton);
 
         this.ctx = canvas.getContext('2d');
         this.loader = new Loader();
@@ -56,42 +49,13 @@ export class Renderer {
         if (connectionState == "connected") {
             this.renderPlayers(renderContext);
         }
-    
-        this.drawGrid(renderContext);
-    
+        
         if (!playerIsAlive) {
             this.writeText("You died! You'll respawn soon...");
         }
 
         if (this.fullScreenMessage){            
             this.writeText(this.fullScreenMessage);
-        }
-    }
-    
-    public drawGrid(renderContext: RenderContext) {
-        const { camera, map } = renderContext;
-
-        let width = map.cols * map.tileSize;
-        let height = map.rows * map.tileSize;
-        
-        let x: number, y: number;
-        
-        for (let r = 0; r < map.rows; r++) {
-            x = - camera.x;
-            y = r * map.tileSize - camera.y;
-            this.ctx.beginPath();
-            this.ctx.moveTo(x, y);
-            this.ctx.lineTo(width, y);
-            this.ctx.stroke();
-        }
-
-        for (let c = 0; c < map.cols; c++) {
-            x = c * map.tileSize - camera.x;
-            y = - camera.y;
-            this.ctx.beginPath();
-            this.ctx.moveTo(x, y);
-            this.ctx.lineTo(x, height);
-            this.ctx.stroke();
         }
     }
 
@@ -160,7 +124,7 @@ export class Renderer {
     public drawPlayer(renderContext: RenderContext, player) {
         const { camera, map } = renderContext;
 
-        if (!player.alive) {
+        if (!player.alive || player.spectator) {
             return;
         }
     

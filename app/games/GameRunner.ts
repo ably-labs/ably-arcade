@@ -5,7 +5,8 @@ type GameState = "not-started" | "running" | "completed";
 
 export class GameRunner {
 
-    private game: IGame;
+    public game: IGame;
+    
     private keyboardState: Keyboard;
 
     private tick: number;
@@ -29,14 +30,14 @@ export class GameRunner {
         this.keyboardState = new Keyboard();
     }
 
-    public async run(onCompletion: (summary: GameEndSummary) => void) { 
+    public async run(playerName: string, onCompletion: (summary: GameEndSummary) => void) { 
         this.state = "running";
         this.tick = 0;
         this.then = Date.now();
         
         this.keyboardState.listenForEvents([Keyboard.LEFT, Keyboard.RIGHT, Keyboard.UP, Keyboard.DOWN]);
 
-        await this.game.preStart();
+        await this.game.preStart(playerName);
         this.game.start();
 
         window.requestAnimationFrame(() => { 

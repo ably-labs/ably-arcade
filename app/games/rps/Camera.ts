@@ -24,9 +24,12 @@ export class Camera {
     }
     
     public update() {
+        const followX = this.following?.x || 0;
+        const followY = this.following?.y || 0;
+
         // make the camera follow the sprite
-        this.x = this.x + ((this.following.x - this.width / 2) - this.x) / 10;
-        this.y = this.y + ((this.following.y - this.height / 2) - this.y) / 10;
+        this.x = this.x + ((followX - this.width / 2) - this.x) / 10;
+        this.y = this.y + ((followY - this.height / 2) - this.y) / 10;
     
         // clamp values
         this.x = Math.max(0, Math.min(this.x, this.maxX));

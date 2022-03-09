@@ -19,11 +19,14 @@ export class Player {
     
     private mapCols: number;
     private mapRows: number;
+    
+    public spectator: boolean;
  
-    constructor(map: Map, name: string, x: number, y: number) {
+    constructor(map: Map, name: string, x: number, y: number, spectator: boolean = false) {
         this.id = uuidv4();
         this.x = x;
         this.y = y;
+        this.spectator = spectator;
         
         this.width = map.tileSize;
         this.height = map.tileSize;
@@ -72,6 +75,10 @@ export class Player {
     
         this.x = randomInt(64, 64 * (this.width - 1));
         this.y = randomInt(64, 64 * (this.height - 1));
+    }
+
+    public static spectator(map: Map) {
+        return new Player(map, "Spectator", 0, 0, true);
     }
 }
 

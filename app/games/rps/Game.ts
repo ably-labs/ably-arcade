@@ -23,20 +23,22 @@ export class Game implements IGame {
     private sqrt2: number;
 
     private shouldChangeColor: boolean;
+    private spectator: boolean;
 
-    public constructor(gameId: string, gameRoot: HTMLElement) {
+    public constructor(gameId: string, gameRoot: HTMLElement, spectator: boolean = false) {
         this.gameId = gameId;
+        this.spectator = spectator;
 
         this.map = new Map(20, 20);
-        this.renderer = new Renderer(gameRoot);
+        this.renderer = new Renderer(gameRoot, spectator);
         this.tickRate = 10;
 
         this.sqrt2 = Math.sqrt(1/2);
     }
 
-    public async preStart() {
+    public async preStart(playerName: string = null) {
         await this.renderer.init();
-        this.playerName = "Player name from somewhere";
+        this.playerName = playerName || "Unknown";
     }
 
     public start() {
@@ -44,9 +46,17 @@ export class Game implements IGame {
         const playerStartX = randomInt(64, 64 * (this.map.cols - 1));
         const playerStartY = randomInt(64, 64 * (this.map.rows - 1));
     
-        this.myPlayer = new Player(this.map, this.playerName, playerStartX, playerStartY);       
         this.camera = new Camera(this.map, 512, 512);
-        this.camera.follow(this.myPlayer);
+
+        if (this.spectator) {      
+            this.myPlayer = Player.spectator(this.map);
+            this.camera = new Camera(this.map, 1280, 1280);
+        }
+
+        if (!this.spectator) {
+            this.myPlayer = new Player(this.map, this.playerName, playerStartX, playerStartY); 
+            this.camera.follow(this.myPlayer);
+        }
         
         this.waitingForDeath = new Set();
     
@@ -58,17 +68,16 @@ export class Game implements IGame {
         this.ablyHandler.onControlMessage = (msg) => { 
             this.handleControlMessage(msg)
         };
+    }
 
-        this.renderer.startButton.addEventListener("click", () => {
-            
-            const messageBody: ControlMessage = {
-                command: 'start',
-                duration: 1000 * 60 * 3
-                //duration: 20_000
-            };
+    public startContest() {
+        const messageBody: ControlMessage = {
+            command: 'start',
+            duration: 1000 * 60 * 3
+            //duration: 20_000
+        };
 
-            this.ablyHandler.sendControlMessage(messageBody);
-        });
+        this.ablyHandler.sendControlMessage(messageBody);
     }
 
     public async render(ctx: TickContext) {
