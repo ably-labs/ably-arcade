@@ -48,7 +48,7 @@ export class ArcadeUI {
         const tableRow = rowTemplate.content.cloneNode(true) as HTMLElement;
         tableRow.querySelector("[data-name]").innerHTML = name;
         tableRow.querySelector("[data-score]").innerHTML = score.toString(); 
-        scoreboardTable.appendChild(tableRow);
+        scoreboardTable.tBodies[0].appendChild(tableRow);
       }
 
       this.gameRoot.appendChild(scoreboard);

@@ -6,7 +6,7 @@ import { HubSpotUi } from "./HubSpotUi";
 
 console.log("Oh hai! 🖤");
 
-const requireSignup = true;
+const requireSignup = false;
 const arcadeUi = new ArcadeUI();
 
 arcadeUi.spectateButton.addEventListener("click", () => {  
