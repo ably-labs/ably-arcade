@@ -3,30 +3,34 @@
   <head>
     <meta charset="utf-8" />
     <title>Ably Arcade</title>
-    
-    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
-    <script src="./script.ts" type="module"></script>
-    
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="icon" type="image/png" href="assets/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+    <script
+      charset="utf-8"
+      type="text/javascript"
+      src="//js.hsforms.net/forms/v2.js"
+    ></script>
+    <script src="./script.ts" type="module"></script>
+
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./space.css" />
+    <link rel="icon" type="image/png" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
   <body>
     <h1>Ably arcade</h1>
+    <header></header>
+
     <section class="container">
       <div id="login">
         <div id="signup-form"></div>
       </div>
-  
+
       <div id="arcade">
         <div class="canvas-holder" id="game-root"></div>
         <div id="spectatorControls" class="spectator-controls">
           <button class="start" id="start">Start Game</button>
-          <p class="message" id="message">
-            3..2..1..GO!
-          </p>
+          <p class="message" id="message">3..2..1..GO!</p>
         </div>
         <div class="controls">
           <button id="up" class="dpad" data-keycode="38">Up</button>
@@ -36,17 +40,21 @@
         </div>
       </div>
     </section>
-    <div id="spectate">Let me spectate</div>
 
+    <canvas id="final-frontier"></canvas>
+
+    <footer></footer>
+
+    <div id="spectate">Let me spectate</div>
 
     <template id="scoreboard-template">
       <section class="scoreboard">
         <h2>High Scores</h2>
         <table>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-            </tr>
+          <tr>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
         </table>
       </section>
     </template>
@@ -57,5 +65,6 @@
       </tr>
     </template>
 
+    <script src="./space.js" type="module"></script>
   </body>
 </html>
