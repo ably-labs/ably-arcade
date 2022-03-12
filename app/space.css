@@ -1,0 +1,37 @@
+header {
+    background-image: url("/assets/topgrid.png");
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 26vh;
+    position: fixed;
+}
+
+footer{
+    position: fixed;
+    background-image: url("/assets/bottomgrid.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30vh;
+}
+
+#final-frontier {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+h1 {
+    position: relative;
+    z-index: 3;
+}
