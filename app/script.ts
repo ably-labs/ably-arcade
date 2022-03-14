@@ -7,41 +7,46 @@ import { HubSpotUi } from "./HubSpotUi";
 console.log("Oh hai! 🖤");
 
 const requireSignup = false;
-const arcadeUi = new ArcadeUI();
 
-arcadeUi.spectateButton.addEventListener("click", () => {  
+const arcadeInstanceId = "my-game-id!";
+const arcadeUi = new ArcadeUI(arcadeInstanceId);
+let runner: GameRunner = null;
+
+arcadeUi.spectateButton.addEventListener("click", () => {
     HubSpotUi.hideForm();
-    arcadeUi.show();
+
     startGame(true);
+    arcadeUi.showGame(true);
 });
 
 if (requireSignup) {
-    HubSpotUi.createForm((form) => {        
+    HubSpotUi.createForm((form) => {
         HubSpotUi.hideForm();
-                
+
         // (╯°□°）╯︵ ┻━┻
         const firstName = form.data.data[1].value;
         const lastName = form.data.data[2].value;
 
         arcadeUi.setPlayerName(`${firstName} ${lastName}`);
-        arcadeUi.show();
+
         startGame();
+        arcadeUi.showGame();
     });
 } else {
-    arcadeUi.show();
     startGame();
+    arcadeUi.showGame();
 }
 
 function startGame(spectator: boolean = false) {
-    const game = new Game("my-game-id!", arcadeUi.gameRoot, spectator);
-    const runner = new GameRunner(game);
-    
-    arcadeUi.bind(runner);
+    if (runner) {
+        runner.stop();
+    }
 
-    runner.run(arcadeUi.playerName, (summary: GameEndSummary) => {
-        arcadeUi.clearDisplay();
-        arcadeUi.showScoreboard(summary);
-    });
+    const game = new Game(arcadeInstanceId, arcadeUi.gameRoot, spectator);
+    runner = new GameRunner(game);
+
+    arcadeUi.bind(runner);
+    runner.run(arcadeUi.playerName);
 }
 
-export {};
+export { };

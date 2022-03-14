@@ -97,15 +97,28 @@ h1 {
 }
 
 .spectator-controls {
+  display: none;
   position: fixed;
-  top: 50%;
+  top: 25%;
   left: 50%;
-  z-index: 3;
+  z-index: 6;
   transform: translate(-50%, -50%);
 }
 
-.scoreboard {
+.player-messages {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 5;
+  transform: translate(-50%, -50%);
+}
 
+.scoreboard-container {
+  display: none;
+}
+
+.scoreboard {
   background-color: black;
   color: #dcfdff;
   text-shadow:
@@ -218,7 +231,7 @@ h2 {
     align-items: center;
     justify-content: center;
     width: 160px;
-    height: 200pxvh;
+    height: 9vh;
     padding: 30px;
     font-weight: bold;
     font-size: 30px;
@@ -263,6 +276,17 @@ h2 {
                 inset 0 0 2rem #FF5416,
                 inset 0 0 0.8rem #FF5416,
                 inset 0 0 2rem #FF5416;
+  }
+
+  .scoreboard-container {
+    display: block;
+  }
+
+  .scoreboards {
+    position: absolute;
+    top: 13vh;
+    right: 20px;
+    z-index: 4;
   }
 
   .scoreboard {

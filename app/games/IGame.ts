@@ -12,19 +12,19 @@ export interface Scoreboard {
 }
 
 export interface GameEndSummary {
-    playerId: string;
-    playerName: string;
-    score: number;
     scores: Scoreboard[];
 }
 
 export interface IGame {
     tickRate: number;
     gameEnded: (summary: GameEndSummary) => void;
+    scoreboard: Scoreboard[];    
+    spectator: boolean;
 
     preStart(playerName: string): Promise<void>;
     start();
-    startContest();
+    startContest(duration: number, seed: number);
+    stop(forced: boolean);
     update(ctx: TickContext);
     render(ctx: TickContext);
 }

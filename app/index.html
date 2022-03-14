@@ -1,61 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ably Arcade</title>
-    
-    <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
-    <script src="./script.ts" type="module"></script>
-    
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="icon" type="image/png" href="assets/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <title>Ably Arcade</title>
 
-  <body>
-    <h1>Ably arcade</h1>
-    <section class="container">
-      <div id="login">
-        <div id="signup-form"></div>
+  <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
+  <script src="./script.ts" type="module"></script>
+
+  <link rel="stylesheet" href="./style.css" />
+  <link rel="icon" type="image/png" href="assets/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+</head>
+
+<body>
+  <h1>Ably arcade</h1>
+  <section class="container">
+    <div id="login">
+      <div id="signup-form"></div>
+    </div>
+
+    <div id="arcade">
+      <div id="spectatorControls" class="spectator-controls">
+        <button class="start" id="spectatorControlsStartContest">Start Game</button>
       </div>
-  
-      <div id="arcade">
-        <div class="canvas-holder" id="game-root"></div>
-        <div id="spectatorControls" class="spectator-controls">
-          <button class="start" id="start">Start Game</button>
-          <p class="message" id="message">
-            3..2..1..GO!
-          </p>
+
+      <div class="canvas-holder" id="game-root"></div>
+      <div class="player-messages" id="player-messages"></div>
+      <div class="scoreboards">
+        <div class="timer" id="timer">
+          00:00
         </div>
-        <div class="controls">
-          <button id="up" class="dpad" data-keycode="38">Up</button>
-          <button id="right" class="dpad" data-keycode="39">Right</button>
-          <button id="down" class="dpad" data-keycode="40">Down</button>
-          <button id="left" class="dpad" data-keycode="37">Left</button>
+        <div class="scoreboard-container" id="scoreboard-container">
+          <section class="scoreboard">
+            <h2>Game Scores</h2>
+            <table id="scoreboard">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </section>
+        </div>
+        <div class="scoreboard-container" id="global-scoreboard-container">
+           <section class="scoreboard">
+            <h2>High Scores</h2>
+            <table id="global-scoreboard">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </section>
         </div>
       </div>
-    </section>
-    <div id="spectate">Let me spectate</div>
 
+      <div class="controls">
+        <button id="up" class="dpad" data-keycode="38">Up</button>
+        <button id="right" class="dpad" data-keycode="39">Right</button>
+        <button id="down" class="dpad" data-keycode="40">Down</button>
+        <button id="left" class="dpad" data-keycode="37">Left</button>
+      </div>
+    </div>
+  </section>
 
-    <template id="scoreboard-template">
-      <section class="scoreboard">
-        <h2>High Scores</h2>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-            </tr>
-        </table>
-      </section>
-    </template>
-    <template id="scoreboard-row-template">
-      <tr>
-        <td data-name>Fred</td>
-        <td data-score>100</td>
-      </tr>
-    </template>
+  <div id="spectate">Let me spectate</div>
 
-  </body>
+  <template id="scoreboard-row-template">
+    <tr>
+      <td data-name>Fred</td>
+      <td data-score>100</td>
+    </tr>
+  </template>
+
+</body>
+
 </html>

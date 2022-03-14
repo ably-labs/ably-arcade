@@ -6,6 +6,7 @@
   "scripts": {
     "prestart": "cd api && npm install",
     "start": "run-p dev:api dev:server",
+    "test": "jest test",
     "dev:api": "npm run start --prefix api",
     "dev:server": "npx vite serve",
     "build:azure": "npx vite build"
@@ -13,7 +14,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^27.4.1",
+    "canvas": "^2.9.0",
+    "jest": "^27.5.1",
     "npm-run-all": "^4.1.5",
+    "ts-jest": "^27.1.3",
     "typescript": "^4.3.2",
     "vite": "^2.6.4"
   },

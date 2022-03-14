@@ -16,27 +16,38 @@ export interface RenderContext {
 export class Renderer {
     private ctx: CanvasRenderingContext2D;
     private loader: Loader;
-    
+
     private tileAtlas: HTMLImageElement;
     private playerImage: HTMLImageElement;
-    
-    private fullScreenMessage: string;    
+
+    private fullScreenMessage: string;
+    private gameRoot: HTMLElement;
+    private spectator: boolean;
 
     constructor(gameRoot: HTMLElement, spectator: boolean = false) {
-        const canvas = document.createElement('canvas');
-        canvas.id = "game";
-        canvas.width = spectator ? 1280 : 512;
-        canvas.height = spectator ? 1280 : 512;
-        gameRoot.appendChild(canvas);
-
-        this.ctx = canvas.getContext('2d');
         this.loader = new Loader();
+        this.gameRoot = gameRoot;
+        this.spectator = spectator;
+        this.resetElements();
     }
 
-    public async init() {        
+    private resetElements() {
+        const canvas = document.createElement('canvas');
+        canvas.id = "game";
+        canvas.width = this.spectator ? 1280 : 512;
+        canvas.height = this.spectator ? 1280 : 512;
+
+        this.gameRoot.innerHTML = "";
+        this.gameRoot.appendChild(canvas);
+
+        this.ctx = canvas.getContext('2d');
+    }
+
+    public async init() {
+        this.resetElements();
         await this.loader.loadImage('tiles', './games/rps/assets/tiles.png');
         await this.loader.loadImage('player', './games/rps/assets/character.gif');
-        this.tileAtlas = this.loader.getImage('tiles');        
+        this.tileAtlas = this.loader.getImage('tiles');
         this.playerImage = this.loader.getImage('player');
     }
 
@@ -49,39 +60,39 @@ export class Renderer {
         if (connectionState == "connected") {
             this.renderPlayers(renderContext);
         }
-        
+
         if (!playerIsAlive) {
             this.writeText("You died! You'll respawn soon...");
         }
 
-        if (this.fullScreenMessage){            
+        if (this.fullScreenMessage) {
             this.writeText(this.fullScreenMessage);
         }
     }
 
-    public clear() {    
+    public clear() {
         this.ctx.clearRect(0, 0, 512, 512);
     }
 
     public drawLayer(renderContext: RenderContext) {
         const { camera, map } = renderContext;
-        
+
         let startCol = Math.floor(camera.x / map.tileSize);
         let endCol = startCol + (camera.width / map.tileSize);
         let startRow = Math.floor(camera.y / map.tileSize);
         let endRow = startRow + (camera.height / map.tileSize);
         let offsetX = -camera.x + startCol * map.tileSize;
         let offsetY = -camera.y + startRow * map.tileSize;
-    
+
         for (let c = startCol; c <= endCol; c++) {
             for (let r = startRow; r <= endRow; r++) {
                 let tile = map.getTile(c, r);
                 let x = (c - startCol) * map.tileSize + offsetX;
                 let y = (r - startRow) * map.tileSize + offsetY;
-                if (tile !== 0) { // 0 => empty tile
+                if (tile.type !== 0) { // 0 => empty tile
                     this.ctx.drawImage(
                         this.tileAtlas, // image
-                        (tile - 1) * map.tileSize, // source x
+                        (tile.type - 1) * map.tileSize, // source x
                         0, // source y
                         map.tileSize, // source width
                         map.tileSize, // source height
@@ -95,7 +106,7 @@ export class Renderer {
         }
     }
 
-    public writeText(message: string) {        
+    public writeText(message: string) {
         this.ctx.font = '20px serif';
         this.ctx.fillText(message, 100, 100);
     }
@@ -108,12 +119,12 @@ export class Renderer {
 
     public async renderPlayers(renderContext: RenderContext) {
         const { game, players } = renderContext;
-            
+
         for (const player of players) {
             if (player.data == undefined) {
                 continue;
             }
-    
+
             if (!player.data.alive && game.waitingForDeath.has(player.data.id)) {
                 game.waitingForDeath.delete(player.data.id);
             }
@@ -127,10 +138,12 @@ export class Renderer {
         if (!player.alive || player.spectator) {
             return;
         }
-    
+
         let x = player.x - camera.x;
         let y = player.y - camera.y;
-    
+
+        // this.ctx.fillRect(x, y, map.tileSize, map.tileSize);
+
         this.ctx.drawImage(
             this.playerImage, // image
             player.color * player.width, // source x
@@ -145,7 +158,7 @@ export class Renderer {
 
         this.ctx.font = '12px serif';
         this.ctx.fillText(player.name, x, y - 15);
-    }    
+    }
 }
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
