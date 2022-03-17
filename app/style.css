@@ -5,8 +5,8 @@
          url('./assets/textmeone-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-
 }
+
 body {
   height: 100vh;
   margin: 0;
@@ -26,10 +26,28 @@ h1 {
   background: url(assets/ably.png) no-repeat top center, url(assets/arcade.png) no-repeat bottom center ;
   background-size: auto 45px, auto 45px;
   color: transparent;
+  grid-area: title;
 }
 
-#arcade {
-  display: none;
+#signup-form {
+  max-width: 400px;
+  margin: 30px auto;
+  padding: 40px;
+  border-radius: 20px;
+  background-color: rgba(0,0,0,0.7);
+  box-shadow: 0 0 .2rem #fff,
+            0 0 .2rem #fff,
+            0 0 2rem #FF5416,
+            0 0 0.8rem #FF5416,
+            0 0 2.8rem #FF5416,
+            inset 0 0 2rem #FF5416,
+            inset 0 0 0.8rem #FF5416;
+}
+.scoreboards {
+    grid-area: score;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    place-content: center;
 }
 
 #game {
@@ -110,8 +128,15 @@ h1 {
   position: fixed;
   top: 50%;
   left: 50%;
+  text-align: center;
+  font-size: 10vw;
+  color: black;
   z-index: 5;
   transform: translate(-50%, -50%);
+}
+
+table {
+  width: 100%;
 }
 
 .scoreboard-container {
@@ -119,22 +144,27 @@ h1 {
 }
 
 .scoreboard {
-  background-color: black;
-  color: #dcfdff;
-  text-shadow:
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #4AF7FF,
-      0 0 82px #4AF7FF,
-      0 0 92px #4AF7FF,
-      0 0 102px #4AF7FF,
-      0 0 151px #4AF7FF;
+  display: none;
 }
 
 h2 {
   text-align: center;
   color: #ffdddd;
+  text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px  #FF5416,
+    0 0 82px  #FF5416,
+    0 0 92px  #FF5416,
+    0 0 102px #FF5416,
+    0 0 151px #FF5416;
+}
+
+.timer {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  text-align: center;
   text-shadow:
     0 0 7px #fff,
     0 0 10px #fff,
@@ -161,10 +191,32 @@ h2 {
 
   h1 {
     margin: 2vh auto 4vh;
-    width: 66vh;
-    height: 7vh;
+    width: calc(100vh - 17vh);
+    height: 110px;
     background-position: center left, center right;
     background-size: contain, contain;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-areas: "global title null"
+                        "global game score";
+    grid-template-columns: 1fr calc(100vh - 17vh) 1fr;
+  }
+
+  #arcade {
+    display: none;
+  }
+
+  #global-scoreboard-container {
+    grid-area: global;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+
+  #game-root {
+    grid-area: game;
   }
 
   .canvas-holder {
@@ -246,20 +298,16 @@ h2 {
     cursor: pointer;
   }
 
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .start {
-    font-size: 3rem;
-    border-radius: 10px;
     padding: 1rem 2rem;
+    font-size: 3rem;
+    font-family: 'text_me_oneregular', Arial, Helvetica, sans-serif;
+    border-radius: 10px;
     background-color: transparent;
     color: white;
     text-align: center;
     color: white;
+    background-color: rgba(255,255,255,0.5);
     text-shadow:0 0 .2rem #fff,
                 0 0 .3rem #FF5416,
                 0 0 2rem #FF5416,
@@ -283,14 +331,13 @@ h2 {
   }
 
   .scoreboards {
-    position: absolute;
-    top: 13vh;
-    right: 20px;
     z-index: 4;
   }
 
   .scoreboard {
-    font-size: 1.3rem;
+    display: block;
+    min-width: 360px;
+    max-width: 400px;
     margin: 1em;
     padding: 2em 2em 3em;
     border-radius: 10px;
@@ -301,6 +348,22 @@ h2 {
                 0 0 0.8rem #FF5416,
                 0 0 2.8rem #FF5416,
                 inset 0 0 1.3rem #FF5416;
+    font-size: 1.3rem;
+    background-color: black;
+    color: #dcfdff;
+    text-shadow: 0 0 7px #fff,
+                 0 0 10px #fff,
+                 0 0 21px #fff,
+                 0 0 42px #4AF7FF,
+                 0 0 82px #4AF7FF,
+                 0 0 92px #4AF7FF,
+                 0 0 102px #4AF7FF,
+                 0 0 151px #4AF7FF;
+}
+
+
+  .timer {
+    font-size: 200px;
   }
 
   th {

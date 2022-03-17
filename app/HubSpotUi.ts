@@ -3,10 +3,10 @@ export class HubSpotUi {
         const forms = window['hbspt'].forms;
 
         forms.create({
-            region: "na1",
-            portalId: "6939709",
-            formId: "03db866f-1346-4e21-9924-def48cd70e79",
-            target: '#signup-form',
+          region: "na1",
+          portalId: "6939709",
+          formId: "691826da-f832-4c82-865c-aeed2ae9fe54",
+          target: "#signup-form"
         });
 
         window.addEventListener('message', event => {

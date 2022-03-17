@@ -33,6 +33,7 @@ if (requireSignup) {
         arcadeUi.showGame();
     });
 } else {
+    HubSpotUi.hideForm();
     startGame();
     arcadeUi.showGame();
 }
