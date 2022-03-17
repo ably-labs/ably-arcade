@@ -1,2 +1,2 @@
-# vite-typescript-azure-functions
-Default app template repository.
+# Ably Arcade
+A collection of games built with Ably at their core.
