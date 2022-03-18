@@ -3,8 +3,13 @@ export class Keyboard {
     public static RIGHT = 39;
     public static UP = 38;
     public static DOWN = 40;
+    public touchLocation: { x: number; y: number; };
 
     private _keys = {};
+
+    constructor() {
+        this.touchLocation = { x: 0, y: 0 };
+    }
 
     public listenForEvents(keys) {
         window.addEventListener('keydown', this.onKeyDown.bind(this));

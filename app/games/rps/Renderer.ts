@@ -109,7 +109,7 @@ export class Renderer {
     }
 
     public writeText(message: string) {
-        this.ctx.font = '20px serif';
+        this.ctx.font = 'bold 20px sans-serif';
         this.ctx.fillText(message, 100, 100);
     }
 
@@ -158,8 +158,21 @@ export class Renderer {
             player.height
         );
 
-        this.ctx.font = '12px serif';
-        this.ctx.fillText(player.name, x, y - 15);
+        let offset = -5;
+
+        this.ctx.font = 'bold 15px sans-serif';
+        this.ctx.fillStyle = "rgb(0,0,0)";
+        this.ctx.fillText(player.name, x - 1 + offset, y - 1 + offset);
+        this.ctx.fillText(player.name, x + 1 + offset, y - 1 + offset);
+        this.ctx.fillText(player.name, x - 1 + offset, y + offset);
+        this.ctx.fillText(player.name, x + 1 + offset, y + offset);
+        this.ctx.fillText(player.name, x - 1 + offset, y + 1 + offset);
+        this.ctx.fillText(player.name, x + 1 + offset, y + 1 + offset);
+
+        this.ctx.fillStyle = "rgb(255,255,255)";
+
+
+        this.ctx.fillText(player.name, x + offset, y + offset);
     }
 }
 

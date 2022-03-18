@@ -146,12 +146,32 @@ export class Game implements IGame {
     private computeMovement(keyboardState: Keyboard) {
         const movementDelta = { x: 0, y: 0 };
 
+        // Keys
         this.keybindings.forEach((adjustFn, keyCode) => {
             if (keyboardState.isPressed(keyCode)) {
                 adjustFn(movementDelta);
             }
         });
 
+        // Touch: FIXME
+        /*if (keyboardState.touchLocation?.x !== 0 || keyboardState.touchLocation?.y !== 0) {
+            const touchX = Math.floor(keyboardState.touchLocation.x);
+            const touchY = Math.floor(keyboardState.touchLocation.y);
+
+            console.log("Touch", touchX, touchY);
+            console.log("PlayerLoc", Math.floor(this.myPlayer.x), Math.floor(this.myPlayer.y));
+            console.log("CameraLoc", Math.floor(this.camera.x), Math.floor(this.camera.y));
+
+            if(touchX !== 0) {            
+                movementDelta.x = (touchX - this.myPlayer.x) > 0 ? 1 : -1;
+            }
+
+            if(touchY !== 0){
+                movementDelta.y = (touchY - this.myPlayer.y) > 0 ? 1 : -1;
+            }
+        }*/
+
+        // Something else        
         let sum = Math.abs(movementDelta.x) + Math.abs(movementDelta.y);
         if (sum == 2) {
             movementDelta.x *= this.sqrt2;
@@ -164,6 +184,10 @@ export class Game implements IGame {
     private async checkIfPlayerDied() {
         for (const player of this.gameState) {
             if (player.data == undefined || !player.data.alive) {
+                continue;
+            }
+
+            if (player.data.spectator) {
                 continue;
             }
 

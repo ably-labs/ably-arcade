@@ -45,9 +45,8 @@ function startGame(spectator: boolean = false) {
 
     const game = new Game(arcadeInstanceId, arcadeUi.gameRoot, spectator);
     runner = new GameRunner(game);
-
-    arcadeUi.bind(runner);
     runner.run(arcadeUi.playerName);
+    arcadeUi.bind(runner);
 }
 
 export { };

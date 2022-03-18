@@ -81,5 +81,31 @@ export class ArcadeUI {
         runner.keyboard.simulateKeyPress(keyCodeNumber)
       });
     });
+
+    const canvas = document.getElementById("game") as HTMLCanvasElement;
+
+    canvas.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      runner.keyboard.touchLocation = touchEventsToCoords(e);
+    });
+
+    canvas.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      runner.keyboard.touchLocation = { x: 0, y: 0 };
+    });
+
+    canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      runner.keyboard.touchLocation = touchEventsToCoords(e);
+    });
   }
+}
+
+
+function touchEventsToCoords(e){ 
+  const rect = e.target as HTMLCanvasElement;
+    const targetRect = rect.getBoundingClientRect();
+    const x = Math.floor(e.touches[0].clientX - targetRect.left);
+    const y = Math.floor(e.touches[0].clientY - targetRect.top);
+    return { x: x, y: y };
 }
