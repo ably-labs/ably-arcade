@@ -56,7 +56,7 @@ export class ArcadeContestHandler {
 
     const messageBody: StartMessage = {
       type: "StartMessage",
-      duration: 30000,
+      duration: 120_000,
       leadTime: 1000 * 3,
       seed: randomNumber
     };
@@ -113,7 +113,6 @@ export class ArcadeContestHandler {
   private async updateGlobalLeaderboard() {
     const history = await this.scoreChannel.history();
     const lastMessage = history.items[0]?.data;
-
     let previousGlobalScoreboard = lastMessage || [];
 
     const scoreboard = new Scoreboard(previousGlobalScoreboard);
@@ -127,7 +126,6 @@ export class ArcadeContestHandler {
   private async getGlobalHistory() {
     const history = await this.scoreChannel.history();
     const lastMessage = history.items[0]?.data;
-
     let previousGlobalScoreboard = lastMessage || [];
 
     const scoreboard = new Scoreboard(previousGlobalScoreboard);
