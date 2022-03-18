@@ -25,12 +25,12 @@
     <div class="layout">
       <div class="scoreboard-container" id="global-scoreboard-container">
           <section class="scoreboard">
-          <h2>High Scores</h2>
+          <h2>All High Scores</h2>
           <table id="global-scoreboard">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Score</th>
+                <th class="score-number">Score</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -43,12 +43,12 @@
           00:00
         </div>
           <section class="scoreboard">
-          <h2>Game Scores</h2>
+          <h2>This Game Scores</h2>
           <table id="scoreboard">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Score</th>
+                <th class="score-number">Score</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -73,7 +73,7 @@
   <template id="scoreboard-row-template">
     <tr>
       <td data-name>Fred</td>
-      <td data-score>100</td>
+      <td data-score class="score-number">100</td>
     </tr>
   </template>
 
