@@ -45,8 +45,8 @@ export class Renderer {
 
     public async init() {
         this.resetElements();
-        await this.loader.loadImage('tiles', './games/rps/assets/tiles.png');
-        await this.loader.loadImage('player', './games/rps/assets/character.png');
+        await this.loader.loadImage('tiles', '/games/rps/assets/tiles.png');
+        await this.loader.loadImage('player', '/games/rps/assets/character.png');
         this.tileAtlas = this.loader.getImage('tiles');
         this.playerImage = this.loader.getImage('player');
     }
