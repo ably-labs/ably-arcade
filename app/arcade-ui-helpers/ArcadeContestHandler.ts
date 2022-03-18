@@ -47,6 +47,8 @@ export class ArcadeContestHandler {
     this.scoreChannel.subscribe("high-scores", (msg: Types.Message) => {
       this.globalScoreboard.render(msg.data);
     });
+
+    this.getGlobalHistory();
   }
 
   public async startContest() {
@@ -120,5 +122,16 @@ export class ArcadeContestHandler {
     this.scoreChannel.publish("high-scores", scoreboard.scores);
 
     // TODO: Bug here where leaderboard is overwritten right now
+  }
+
+  private async getGlobalHistory() {
+    const history = await this.scoreChannel.history();
+    const lastMessage = history.items[0]?.data;
+
+    let previousGlobalScoreboard = lastMessage || [];
+
+    const scoreboard = new Scoreboard(previousGlobalScoreboard);
+
+    this.globalScoreboard.render(scoreboard.scores);
   }
 }
