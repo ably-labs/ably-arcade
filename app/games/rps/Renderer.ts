@@ -2,6 +2,8 @@ import { Game } from "./Game";
 import { Loader } from "./Loader";
 import { Camera } from "./Camera";
 import { Map } from "./Map";
+import tilesPng from "./assets/tiles.png";
+import characterPng from "./assets/character.png";
 
 export interface RenderContext {
     game: Game;
@@ -45,8 +47,8 @@ export class Renderer {
 
     public async init() {
         this.resetElements();
-        await this.loader.loadImage('tiles', '/games/rps/assets/tiles.png');
-        await this.loader.loadImage('player', '/games/rps/assets/character.png');
+        await this.loader.loadImage('tiles', tilesPng);
+        await this.loader.loadImage('player', characterPng);
         this.tileAtlas = this.loader.getImage('tiles');
         this.playerImage = this.loader.getImage('player');
     }
