@@ -8,7 +8,7 @@ export class Keyboard {
     private _keys = {};
 
     constructor() {
-        this.touchLocation = { x: 0, y: 0 };
+        this.touchLocation = { x: -1, y: -1 };
     }
 
     public listenForEvents(keys) {

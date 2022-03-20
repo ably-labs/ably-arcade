@@ -83,6 +83,22 @@ export class ArcadeUI {
     });
 
     const canvas = document.getElementById("game") as HTMLCanvasElement;
+    let captureMouse = false;
+
+    canvas.addEventListener("mousedown", (e) => {
+      captureMouse = true;
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (captureMouse) {
+        runner.keyboard.touchLocation = clickEventsToCoords(e);
+      }
+    });
+
+    canvas.addEventListener("mouseup", (e) => {
+      captureMouse = false;
+      runner.keyboard.touchLocation = { x: -1, y: -1 };
+    });
 
     canvas.addEventListener("touchstart", (e) => {
       e.preventDefault();
@@ -91,7 +107,7 @@ export class ArcadeUI {
 
     canvas.addEventListener("touchend", (e) => {
       e.preventDefault();
-      runner.keyboard.touchLocation = { x: 0, y: 0 };
+      runner.keyboard.touchLocation = { x: -1, y: -1 };
     });
 
     canvas.addEventListener("touchmove", (e) => {
@@ -101,10 +117,18 @@ export class ArcadeUI {
   }
 }
 
-function touchEventsToCoords(e) { 
+function clickEventsToCoords(e) {
   const rect = e.target as HTMLCanvasElement;
-    const targetRect = rect.getBoundingClientRect();
-    const x = e.touches[0].pageX - targetRect.left;
-    const y = e.touches[0].pageY - targetRect.top;
-    return { x: x, y: y };
+  const targetRect = rect.getBoundingClientRect();
+  const x = e.clientX - targetRect.left;
+  const y = e.clientY - targetRect.top;
+  return { x: x, y: y };
+}
+
+function touchEventsToCoords(e) {
+  const rect = e.target as HTMLCanvasElement;
+  const targetRect = rect.getBoundingClientRect();
+  const x = e.touches[0].pageX - targetRect.left;
+  const y = e.touches[0].pageY - targetRect.top;
+  return { x: x, y: y };
 }

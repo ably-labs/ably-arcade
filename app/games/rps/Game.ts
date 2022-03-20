@@ -153,32 +153,8 @@ export class Game implements IGame {
             }
         });
 
-        const worldLoc = {
-            x: this.myPlayer.x - this.camera.x + (this.myPlayer.width / 2),
-            y: this.myPlayer.y - this.camera.y + (this.myPlayer.height / 2),
-        };
+        this.computeTouchMovement(keyboardState, movementDelta);
 
-        // Touch: FIXME
-        if (keyboardState.touchLocation?.x !== 0 || keyboardState.touchLocation?.y !== 0) {
-            const touchLoc = {
-                x: keyboardState.touchLocation.x,
-                y: keyboardState.touchLocation.y    
-            };
-
-            console.log("Touch", touchLoc,"World", worldLoc, touchLoc.x > 0, touchLoc.y > 0);
-
-            if (touchLoc.x !== 0) {       
-                const difference = touchLoc.x - worldLoc.x;     
-                movementDelta.x = difference < 0 ? -1 : 1;
-            }
-
-            if (touchLoc.y !== 0){
-                const difference = touchLoc.y - worldLoc.y;
-                movementDelta.y = difference < 0 ? -1 : 1;
-            }
-        }
-
-        // Something else        
         let sum = Math.abs(movementDelta.x) + Math.abs(movementDelta.y);
         if (sum == 2) {
             movementDelta.x *= this.sqrt2;
@@ -186,6 +162,31 @@ export class Game implements IGame {
         }
 
         return movementDelta;
+    }
+
+    private computeTouchMovement(keyboardState: Keyboard, movementDelta: MovementDelta) {
+        const playerCameraScale = 2;
+        const worldLoc = {
+            x: this.myPlayer.x - this.camera.x + (this.myPlayer.width / playerCameraScale),
+            y: this.myPlayer.y - this.camera.y + (this.myPlayer.height / playerCameraScale),
+        };
+
+        if (keyboardState.touchLocation?.x !== -1 || keyboardState.touchLocation?.y !== -1) {
+            const touchLoc = {
+                x: keyboardState.touchLocation.x / playerCameraScale,
+                y: keyboardState.touchLocation.y / playerCameraScale
+            };
+
+            var dx = touchLoc.x - worldLoc.x;
+            var dy = touchLoc.y - worldLoc.y;
+            var angle = Math.atan2(dy, dx);
+            var magnitude = 1.0;
+            var velX = Math.cos(angle) * magnitude;
+            var velY = Math.sin(angle) * magnitude;
+
+            movementDelta.x = velX;
+            movementDelta.y = velY;
+        }
     }
 
     private async checkIfPlayerDied() {
