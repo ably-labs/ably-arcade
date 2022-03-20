@@ -113,8 +113,6 @@ export class ArcadeUI {
       e.preventDefault();
       runner.keyboard.touchLocation = touchEventsToCoords(e);
     };
-
-    console.log("Bound to canvas", this.gameRoot);
   }
 }
 
