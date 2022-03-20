@@ -30,7 +30,7 @@ export class ArcadeContestHandler {
   private onContestEndFunc: () => void;
 
   constructor(arcadeInstanceId: string, onContestEnd: () => void) {
-    this.onContestEndFunc = onContestEnd || (() => {});
+    this.onContestEndFunc = onContestEnd || (() => { });
 
     this.messages = new AnnouncementUi("player-messages");
     this.scoreboard = new ScoreboardUi("scoreboard", "scoreboard-row-template");
@@ -77,8 +77,12 @@ export class ArcadeContestHandler {
     }, msg.duration);
   }
 
-  private secToTime(seconds, separator) {
-    return [parseInt(seconds / 60 / 60), parseInt((seconds / 60) % 60), parseInt(seconds % 60)]
+  private secToTime(seconds: number, separator: string) {
+    const hh = seconds / 60 / 60;
+    const mm = (seconds / 60) % 60;
+    const ss = seconds % 60
+
+    return [parseInt(hh.toString()), parseInt(mm.toString()), parseInt(ss.toString())]
       .join(separator ? separator : ":")
       .replace(/\b(\d)\b/g, "0$1")
       .replace(/^00\:/, "");
