@@ -153,23 +153,30 @@ export class Game implements IGame {
             }
         });
 
+        const worldLoc = {
+            x: this.myPlayer.x - this.camera.x + (this.myPlayer.width / 2),
+            y: this.myPlayer.y - this.camera.y + (this.myPlayer.height / 2),
+        };
+
         // Touch: FIXME
-        /*if (keyboardState.touchLocation?.x !== 0 || keyboardState.touchLocation?.y !== 0) {
-            const touchX = Math.floor(keyboardState.touchLocation.x);
-            const touchY = Math.floor(keyboardState.touchLocation.y);
+        if (keyboardState.touchLocation?.x !== 0 || keyboardState.touchLocation?.y !== 0) {
+            const touchLoc = {
+                x: keyboardState.touchLocation.x,
+                y: keyboardState.touchLocation.y    
+            };
 
-            console.log("Touch", touchX, touchY);
-            console.log("PlayerLoc", Math.floor(this.myPlayer.x), Math.floor(this.myPlayer.y));
-            console.log("CameraLoc", Math.floor(this.camera.x), Math.floor(this.camera.y));
+            console.log("Touch", touchLoc,"World", worldLoc, touchLoc.x > 0, touchLoc.y > 0);
 
-            if(touchX !== 0) {            
-                movementDelta.x = (touchX - this.myPlayer.x) > 0 ? 1 : -1;
+            if (touchLoc.x !== 0) {       
+                const difference = touchLoc.x - worldLoc.x;     
+                movementDelta.x = difference < 0 ? -1 : 1;
             }
 
-            if(touchY !== 0){
-                movementDelta.y = (touchY - this.myPlayer.y) > 0 ? 1 : -1;
+            if (touchLoc.y !== 0){
+                const difference = touchLoc.y - worldLoc.y;
+                movementDelta.y = difference < 0 ? -1 : 1;
             }
-        }*/
+        }
 
         // Something else        
         let sum = Math.abs(movementDelta.x) + Math.abs(movementDelta.y);

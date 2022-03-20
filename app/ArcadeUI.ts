@@ -101,11 +101,10 @@ export class ArcadeUI {
   }
 }
 
-
-function touchEventsToCoords(e){ 
+function touchEventsToCoords(e) { 
   const rect = e.target as HTMLCanvasElement;
     const targetRect = rect.getBoundingClientRect();
-    const x = Math.floor(e.touches[0].clientX - targetRect.left);
-    const y = Math.floor(e.touches[0].clientY - targetRect.top);
+    const x = e.touches[0].pageX - targetRect.left;
+    const y = e.touches[0].pageY - targetRect.top;
     return { x: x, y: y };
 }
