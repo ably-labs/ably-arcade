@@ -16,6 +16,5 @@ export class ScoreboardUi {
       tableRow.querySelector("[data-score]").innerHTML = score.toString();
       this.table.tBodies[0].appendChild(tableRow);
     }
-    console.log("Rendered " + scores.length + " scores");
   }
 }
