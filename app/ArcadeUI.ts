@@ -82,38 +82,39 @@ export class ArcadeUI {
       });
     });
 
-    const canvas = document.getElementById("game") as HTMLCanvasElement;
     let captureMouse = false;
 
-    canvas.addEventListener("mousedown", (e) => {
+    this.gameRoot.onmousedown = (e) => {
       captureMouse = true;
-    });
+    };
 
-    canvas.addEventListener("mousemove", (e) => {
+    this.gameRoot.onmousemove = (e) => {
       if (captureMouse) {
         runner.keyboard.touchLocation = clickEventsToCoords(e);
       }
-    });
+    };
 
-    canvas.addEventListener("mouseup", (e) => {
+    this.gameRoot.onmouseup = (e) => {
       captureMouse = false;
       runner.keyboard.touchLocation = { x: -1, y: -1 };
-    });
+    };
 
-    canvas.addEventListener("touchstart", (e) => {
+    this.gameRoot.ontouchstart = (e) => {
       e.preventDefault();
       runner.keyboard.touchLocation = touchEventsToCoords(e);
-    });
+    };
 
-    canvas.addEventListener("touchend", (e) => {
+    this.gameRoot.ontouchend = (e) => {
       e.preventDefault();
       runner.keyboard.touchLocation = { x: -1, y: -1 };
-    });
+    };
 
-    canvas.addEventListener("touchmove", (e) => {
+    this.gameRoot.ontouchmove = (e) => {
       e.preventDefault();
       runner.keyboard.touchLocation = touchEventsToCoords(e);
-    });
+    };
+
+    console.log("Bound to canvas", this.gameRoot);
   }
 }
 

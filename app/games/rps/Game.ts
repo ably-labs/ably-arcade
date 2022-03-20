@@ -166,16 +166,15 @@ export class Game implements IGame {
     }
 
     private computeTouchMovement(keyboardState: Keyboard, movementDelta: MovementDelta) {
-        const playerCameraScale = 2;
         const worldLoc = {
-            x: this.myPlayer.x - this.camera.x + (this.myPlayer.width / playerCameraScale),
-            y: this.myPlayer.y - this.camera.y + (this.myPlayer.height / playerCameraScale),
+            x: this.myPlayer.x - this.camera.x + (this.myPlayer.width / this.camera.scale),
+            y: this.myPlayer.y - this.camera.y + (this.myPlayer.height / this.camera.scale),
         };
 
         if (keyboardState.touchLocation?.x !== -1 || keyboardState.touchLocation?.y !== -1) {
             const touchLoc = {
-                x: keyboardState.touchLocation.x / playerCameraScale,
-                y: keyboardState.touchLocation.y / playerCameraScale
+                x: keyboardState.touchLocation.x / this.camera.scale,
+                y: keyboardState.touchLocation.y / this.camera.scale
             };
 
             var dx = touchLoc.x - worldLoc.x;
