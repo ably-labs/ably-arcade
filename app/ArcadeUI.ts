@@ -96,7 +96,7 @@ export class ArcadeUI {
 
     this.gameRoot.onmouseup = (e) => {
       captureMouse = false;
-      runner.keyboard.touchLocation = { x: -1, y: -1 };
+      runner.keyboard.removeTouch();
     };
 
     this.gameRoot.ontouchstart = (e) => {
@@ -106,7 +106,7 @@ export class ArcadeUI {
 
     this.gameRoot.ontouchend = (e) => {
       e.preventDefault();
-      runner.keyboard.touchLocation = { x: -1, y: -1 };
+      runner.keyboard.removeTouch();
     };
 
     this.gameRoot.ontouchmove = (e) => {

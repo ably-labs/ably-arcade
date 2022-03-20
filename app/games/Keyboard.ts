@@ -8,7 +8,7 @@ export class Keyboard {
     private _keys = {};
 
     constructor() {
-        this.touchLocation = { x: -1, y: -1 };
+        this.removeTouch();
     }
 
     public listenForEvents(keys) {
@@ -28,6 +28,10 @@ export class Keyboard {
                 this._keys[keyCode] = false;
             }, duration);
         }
+    }
+
+    public removeTouch() {
+        this.touchLocation = { x: -1, y: -1 };
     }
 
     private onKeyDown(event) {
