@@ -1,6 +1,8 @@
 import { Keyboard } from "../Keyboard";
 import { Game } from "./Game";
 import { wait } from "../TestSupport";
+import { DiskAssetSource } from "./assets/DiskAssetSource";
+import { IAssetSource } from "./IAssetSource";
 
 describe("Game", () => {
 
@@ -8,6 +10,7 @@ describe("Game", () => {
     let rootElement: HTMLElement;
     let mockRenderer: any;
     let mockAbly: any;
+    let assetSource: IAssetSource;
 
     beforeEach(() => {
         mockRenderer = {
@@ -28,8 +31,10 @@ describe("Game", () => {
             playerMetadata: async function () { return []; },
         } as any;
 
+        assetSource = new DiskAssetSource();
+
         rootElement = document.createElement('div');
-        sut = new Game("ably-channel-id", rootElement, false);
+        sut = new Game("ably-channel-id", rootElement, false, new DiskAssetSource());
         sut["renderer"] = mockRenderer;
         sut["ablyHandler"] = mockAbly;
     });
@@ -57,7 +62,7 @@ describe("Game", () => {
     });
 
     it("start, can correctly initilise spectators", () => {
-        sut = new Game("ably-channel-id", rootElement, true);
+        sut = new Game("ably-channel-id", rootElement, true, assetSource);
         sut["renderer"] = mockRenderer;
         sut["ablyHandler"] = mockAbly;
 

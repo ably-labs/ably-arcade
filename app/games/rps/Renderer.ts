@@ -2,8 +2,7 @@ import { Game } from "./Game";
 import { Loader } from "./Loader";
 import { Camera } from "./Camera";
 import { Map } from "./Map";
-import tilesPng from "./assets/tiles.png";
-import characterPng from "./assets/character.png";
+import { IAssetSource } from "./IAssetSource";
 
 export interface RenderContext {
     game: Game;
@@ -25,11 +24,13 @@ export class Renderer {
     private fullScreenMessage: string;
     private gameRoot: HTMLElement;
     private spectator: boolean;
+    private assetSource: IAssetSource;
 
-    constructor(gameRoot: HTMLElement, spectator: boolean = false) {
+    constructor(gameRoot: HTMLElement, spectator: boolean = false, assetSource: IAssetSource = null) {
         this.loader = new Loader();
         this.gameRoot = gameRoot;
         this.spectator = spectator;
+        this.assetSource = assetSource;
         this.resetElements();
     }
 
@@ -46,9 +47,15 @@ export class Renderer {
     }
 
     public async init() {
+        if (!this.assetSource) {
+            const { ViteAssetSource } = await import('./assets/ViteAssetSource');
+            this.assetSource = new ViteAssetSource();
+        }
+
         this.resetElements();
-        await this.loader.loadImage('tiles', tilesPng);
-        await this.loader.loadImage('player', characterPng);
+        const assetPaths = this.assetSource.getAssets();
+        await this.loader.loadImage('tiles', assetPaths.get('tiles'));
+        await this.loader.loadImage('player', assetPaths.get('player'));
         this.tileAtlas = this.loader.getImage('tiles');
         this.playerImage = this.loader.getImage('player');
     }

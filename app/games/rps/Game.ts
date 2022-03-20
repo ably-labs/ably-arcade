@@ -6,6 +6,7 @@ import { AblyHandler } from "./AblyHandler";
 import { Renderer } from "./Renderer";
 import { IGame, GameEndSummary, TickContext, Scoreboard } from "../IGame";
 import Level from "./Levels";
+import { IAssetSource } from "./IAssetSource";
 
 export type MovementDelta = { x: number, y: number };
 
@@ -34,12 +35,12 @@ export class Game implements IGame {
 
     private gameState: any;
 
-    public constructor(gameId: string, gameRoot: HTMLElement, spectator: boolean = false) {
+    public constructor(gameId: string, gameRoot: HTMLElement, spectator: boolean = false, assetSource: IAssetSource = null) {
         this.gameId = gameId;
         this.spectator = spectator;
 
         this.map = new GameMap(Level[0]);
-        this.renderer = new Renderer(gameRoot, spectator);
+        this.renderer = new Renderer(gameRoot, spectator, assetSource);
         this.tickRate = 10;
 
         this.sqrt2 = Math.sqrt(1 / 2);
