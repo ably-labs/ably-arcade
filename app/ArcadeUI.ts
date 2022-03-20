@@ -3,7 +3,6 @@ import { ArcadeContestHandler } from "./arcade-ui-helpers/ArcadeContestHandler";
 
 export class ArcadeUI {
   public arcadeInstanceId: string;
-  public buttons: Element[];
   public playerName: string;
   private spectator: boolean;
 
@@ -14,13 +13,13 @@ export class ArcadeUI {
   private spectatorControls: HTMLElement;
 
   private contestHandler: ArcadeContestHandler;
+  private eventListenerController: AbortController;
 
   constructor(arcadeInstanceId: string) {
     this.arcadeInstanceId = arcadeInstanceId;
     this.playerName = `Anonymous ${Math.floor(Math.random() * 100)}`;
 
     this.arcade = document.getElementById("arcade") as HTMLElement;
-    this.buttons = [...document.querySelectorAll("[data-keycode]")] as Element[];
     this.gameRoot = document.getElementById("game-root") as HTMLElement;
 
     this.spectateButton = document.getElementById("spectate") as HTMLElement;
@@ -34,6 +33,8 @@ export class ArcadeUI {
     this.contestHandler = new ArcadeContestHandler(this.arcadeInstanceId, () => {
       this.onEndContest();
     });
+
+    this.eventListenerController = new AbortController();
   }
 
   public setPlayerName(name: string) {
@@ -73,46 +74,44 @@ export class ArcadeUI {
   public bind(runner: GameRunner): void {
     this.contestHandler.runner = runner;
 
-    this.buttons.forEach(button => {
-      const keycode = button.getAttribute("data-keycode");
-      const keyCodeNumber = parseInt(keycode);
+    if (this.eventListenerController) {
+      this.eventListenerController.abort();
+      this.eventListenerController = new AbortController();
+    }
 
-      button.addEventListener("click", () => {
-        runner.keyboard.simulateKeyPress(keyCodeNumber)
-      });
-    });
+    const cancellationToken = { signal: this.eventListenerController.signal };
 
     let captureMouse = false;
 
-    this.gameRoot.onmousedown = (e) => {
+    this.gameRoot.addEventListener("mousedown", (e) => {
       captureMouse = true;
-    };
+    }, cancellationToken);
 
-    this.gameRoot.onmousemove = (e) => {
+    this.gameRoot.addEventListener("mousemove", (e) => {
       if (captureMouse) {
         runner.keyboard.touchLocation = clickEventsToCoords(e);
       }
-    };
+    }, cancellationToken);
 
-    this.gameRoot.onmouseup = (e) => {
+    this.gameRoot.addEventListener("mouseup", (e) => {
       captureMouse = false;
       runner.keyboard.removeTouch();
-    };
+    }, cancellationToken);
 
-    this.gameRoot.ontouchstart = (e) => {
+    this.gameRoot.addEventListener("touchstart", (e) => {
       e.preventDefault();
       runner.keyboard.touchLocation = touchEventsToCoords(e);
-    };
+    }, cancellationToken);
 
-    this.gameRoot.ontouchend = (e) => {
+    this.gameRoot.addEventListener("touchend", (e) => {
       e.preventDefault();
       runner.keyboard.removeTouch();
-    };
+    }, cancellationToken);
 
-    this.gameRoot.ontouchmove = (e) => {
+    this.gameRoot.addEventListener("touchmove", (e) => {
       e.preventDefault();
       runner.keyboard.touchLocation = touchEventsToCoords(e);
-    };
+    }, cancellationToken);  
   }
 }
 

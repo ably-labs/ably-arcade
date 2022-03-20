@@ -1,16 +1,15 @@
-
 @font-face {
-    font-family: 'text_me_oneregular';
-    src: url('./assets/textmeone-regular-webfont.woff2') format('woff2'),
-         url('./assets/textmeone-regular-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "text_me_oneregular";
+  src: url("./assets/textmeone-regular-webfont.woff2") format("woff2"),
+    url("./assets/textmeone-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
   height: 100vh;
   margin: 0;
-  font-family: 'text_me_oneregular', Arial, Helvetica, sans-serif;
+  font-family: "text_me_oneregular", Arial, Helvetica, sans-serif;
   background-image: url("assets/stars.png");
   background-position: center;
   background-repeat: no-repeat;
@@ -23,7 +22,8 @@ h1 {
   width: calc(100% - 20px);
   height: 90px;
   margin: 10px auto 20px;
-  background: url(assets/ably.png) no-repeat top center, url(assets/arcade.png) no-repeat bottom center ;
+  background: url(assets/ably.png) no-repeat top center,
+    url(assets/arcade.png) no-repeat bottom center;
   background-size: auto 45px, auto 45px;
   color: transparent;
   grid-area: title;
@@ -34,20 +34,16 @@ h1 {
   margin: 30px auto;
   padding: 40px;
   border-radius: 20px;
-  background-color: rgba(0,0,0,0.7);
-  box-shadow: 0 0 .2rem #fff,
-            0 0 .2rem #fff,
-            0 0 2rem #FF5416,
-            0 0 0.8rem #FF5416,
-            0 0 2.8rem #FF5416,
-            inset 0 0 2rem #FF5416,
-            inset 0 0 0.8rem #FF5416;
+  background-color: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #ff5416,
+    0 0 0.8rem #ff5416, 0 0 2.8rem #ff5416, inset 0 0 2rem #ff5416,
+    inset 0 0 0.8rem #ff5416;
 }
 .scoreboards {
-    grid-area: score;
-    display: grid;
-    grid-template-rows: auto 1fr;
-    place-content: center;
+  grid-area: score;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  place-content: center;
 }
 
 #game {
@@ -56,58 +52,6 @@ h1 {
   height: calc(100vw - 20px);
   object-fit: contain;
   margin: 0 auto;
-}
-
-.controls {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0px;
-  height: 200px;
-  width: 200px;
-  background: url(assets/arrows.png) center no-repeat;
-  background-size: cover;
-  background-blend-mode: color-burn;
-}
-
-.dpad {
-  position: absolute;
-  background-color: transparent;
-  border: 0;
-  color: transparent;
-
-}
-
-#up {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 80px;
-}
-
-#right {
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 50px;
-}
-
-#down {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 80px;
-}
-
-#left {
-  left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 80px;
-  height: 50px;
 }
 
 #spectate {
@@ -130,13 +74,9 @@ h1 {
   left: 50%;
   text-align: center;
   font-size: 80px;
-   color: white;
-   text-shadow:
-       3px 3px 0 #000,
-     -1px -1px 0 #000,  
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-       1px 1px 0 #000;
+  color: white;
+  text-shadow: 3px 3px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
   z-index: 5;
   transform: translate(-50%, -50%);
 }
@@ -154,33 +94,19 @@ table {
 }
 
 h2 {
-  margin: .5em;
+  margin: 0.5em;
   text-align: center;
   color: #ffdddd;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px  #FF5416,
-    0 0 82px  #FF5416,
-    0 0 92px  #FF5416,
-    0 0 102px #FF5416,
-    0 0 151px #FF5416;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #ff5416,
+    0 0 82px #ff5416, 0 0 92px #ff5416, 0 0 102px #ff5416, 0 0 151px #ff5416;
 }
 
 .timer {
   font-size: 2rem;
   margin-bottom: 10px;
   text-align: center;
-  text-shadow:
-    0 0 7px #fff,
-    0 0 10px #fff,
-    0 0 21px #fff,
-    0 0 42px  #FF5416,
-    0 0 82px  #FF5416,
-    0 0 92px  #FF5416,
-    0 0 102px #FF5416,
-    0 0 151px #FF5416;
+  text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #ff5416,
+    0 0 82px #ff5416, 0 0 92px #ff5416, 0 0 102px #ff5416, 0 0 151px #ff5416;
 }
 
 .score-number {
@@ -192,7 +118,8 @@ h2 {
     display: grid;
     grid-template-rows: auto 1fr;
     height: 100vh;
-    background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"), url("assets/stars.png");
+    background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"),
+      url("assets/stars.png");
     background-position: bottom, top, center;
     background-repeat: no-repeat;
     background-size: contain, contain, cover;
@@ -210,8 +137,9 @@ h2 {
 
   .layout {
     display: grid;
-    grid-template-areas: "global title null"
-                        "global game score";
+    grid-template-areas:
+      "global title null"
+      "global game score";
     grid-template-columns: 1fr calc(100vh - 17vh) 1fr;
   }
 
@@ -312,29 +240,20 @@ h2 {
   .start {
     padding: 1rem 2rem;
     font-size: 3rem;
-    font-family: 'text_me_oneregular', Arial, Helvetica, sans-serif;
+    font-family: "text_me_oneregular", Arial, Helvetica, sans-serif;
     border-radius: 10px;
     background-color: transparent;
     color: white;
     text-align: center;
     color: white;
-    background-color: rgba(255,255,255,0.5);
-    text-shadow:0 0 .2rem #fff,
-                0 0 .3rem #FF5416,
-                0 0 2rem #FF5416,
-                0 0 0.8rem #FF5416,
-                0 0 2rem #FF5416;
-      border: 4px solid white;
-    box-shadow: 0 0 .2rem #fff,
-                0 0 .2rem #fff,
-                0 0 2rem #FF5416,
-                0 0 0.8rem #FF5416,
-                0 0 2.8rem #FF5416,
-                inset 0 0 .2rem #fff,
-                inset 0 0 .2rem #fff,
-                inset 0 0 2rem #FF5416,
-                inset 0 0 0.8rem #FF5416,
-                inset 0 0 2rem #FF5416;
+    background-color: rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 0.2rem #fff, 0 0 0.3rem #ff5416, 0 0 2rem #ff5416,
+      0 0 0.8rem #ff5416, 0 0 2rem #ff5416;
+    border: 4px solid white;
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #ff5416,
+      0 0 0.8rem #ff5416, 0 0 2.8rem #ff5416, inset 0 0 0.2rem #fff,
+      inset 0 0 0.2rem #fff, inset 0 0 2rem #ff5416, inset 0 0 0.8rem #ff5416,
+      inset 0 0 2rem #ff5416;
   }
 
   .scoreboard-container {
@@ -353,23 +272,13 @@ h2 {
     padding: 1em 1em 2em;
     border-radius: 10px;
     border: 4px solid white;
-    box-shadow: 0 0 .2rem #fff,
-                0 0 .2rem #fff,
-                0 0 2rem #FF5416,
-                0 0 0.8rem #FF5416,
-                0 0 2.8rem #FF5416,
-                inset 0 0 1.3rem #FF5416;
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #ff5416,
+      0 0 0.8rem #ff5416, 0 0 2.8rem #ff5416, inset 0 0 1.3rem #ff5416;
     font-size: 1.3rem;
     background-color: black;
     color: #dcfdff;
-    text-shadow: 0 0 7px #fff,
-                 0 0 10px #fff,
-                 0 0 21px #fff,
-                 0 0 42px #4AF7FF,
-                 0 0 82px #4AF7FF,
-                 0 0 92px #4AF7FF,
-                 0 0 102px #4AF7FF,
-                 0 0 151px #4AF7FF;
+    text-shadow: 0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #4af7ff,
+      0 0 82px #4af7ff, 0 0 92px #4af7ff, 0 0 102px #4af7ff, 0 0 151px #4af7ff;
   }
   .timer {
     font-size: clamp(100px, 50vw, 170px);
@@ -381,6 +290,6 @@ h2 {
     text-align: left;
   }
   td {
-    padding: .5em 1em;
+    padding: 0.5em 1em;
   }
 }
