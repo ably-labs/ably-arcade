@@ -56,7 +56,7 @@ export class ArcadeContestHandler {
 
     const messageBody: StartMessage = {
       type: "StartMessage",
-      duration: 120_000,
+      duration: 60_000,
       leadTime: 1000 * 3,
       seed: randomNumber
     };
@@ -116,24 +116,31 @@ export class ArcadeContestHandler {
 
   private async updateGlobalLeaderboard() {
     const history = await this.scoreChannel.history();
-    const lastMessage = history.items[0]?.data;
-    let previousGlobalScoreboard = lastMessage || [];
+    const historyPage = history.items[0];
+    const previousGlobalScores = historyPage?.data || [];
 
-    const scoreboard = new Scoreboard(previousGlobalScoreboard);
+    if (!previousGlobalScores || previousGlobalScores === undefined) {
+      console.log("Oh no! Scoreboard lost! Not updating.", history);
+      return;
+    }
+
+    const scoreboard = new Scoreboard(previousGlobalScores);
     scoreboard.addRange(this.runner.game.scoreboard);
 
     this.scoreChannel.publish("high-scores", scoreboard.scores);
-
-    // TODO: Bug here where leaderboard is overwritten right now
   }
 
   private async getGlobalHistory() {
     const history = await this.scoreChannel.history();
-    const lastMessage = history.items[0]?.data;
-    let previousGlobalScoreboard = lastMessage || [];
+    const historyPage = history.items[0];
+    const previousGlobalScores = historyPage?.data || [];
 
-    const scoreboard = new Scoreboard(previousGlobalScoreboard);
+    if (!previousGlobalScores || previousGlobalScores === undefined) {
+      console.log("Oh no! Scoreboard lost! Can't display scores.", history);
+      return;
+    }
 
+    const scoreboard = new Scoreboard(previousGlobalScores);
     this.globalScoreboard.render(scoreboard.scores);
   }
 }
