@@ -7,15 +7,15 @@ export class Scoreboard {
     return this.items;
   }
 
-  constructor(items: { name: string; score: number; }[], cap: number = 10) {
+  constructor(items: { name: string; score: number; }[] = null, cap: number = 10) {
     this.items = [];
     this.cap = cap;
-    this.addRange(items);
+    this.addRange(items || []);
   }
 
   public addRange(items: { name: string; score: number; }[]) {
     this.items.push(...items);
     this.items.sort((a, b) => b.score - a.score);
-    this.items = items.slice(0, this.cap);
+    this.items = this.items.slice(0, this.cap);
   }
 }
