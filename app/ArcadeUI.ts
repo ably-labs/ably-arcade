@@ -7,6 +7,7 @@ export class ArcadeUI {
   private spectator: boolean;
 
   public gameRoot: HTMLElement;
+  private body: HTMLElement;
   private arcade: HTMLElement;
 
   public spectateButton: HTMLElement;
@@ -20,6 +21,7 @@ export class ArcadeUI {
     this.playerName = `Anonymous ${Math.floor(Math.random() * 100)}`;
 
     this.arcade = document.getElementById("arcade") as HTMLElement;
+    this.body = document.getElementById("body") as HTMLElement;
     this.gameRoot = document.getElementById("game-root") as HTMLElement;
 
     this.spectateButton = document.getElementById("spectate") as HTMLElement;
@@ -56,6 +58,7 @@ export class ArcadeUI {
   }
 
   private showGameWorld() {
+    this.body.classList.add("started");
     this.arcade.style.display = "block";
     this.gameRoot.style.display = "block";
   }
