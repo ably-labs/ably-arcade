@@ -6,7 +6,7 @@ import { HubSpotUi } from "./HubSpotUi";
 
 console.log("Oh hai! 🖤");
 
-const requireSignup = false;
+const requireSignup = true;
 
 const arcadeInstanceId = "my-game-id!";
 const arcadeUi = new ArcadeUI(arcadeInstanceId);
