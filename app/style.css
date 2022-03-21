@@ -31,13 +31,10 @@ h1 {
 
 #signup-form {
   max-width: 400px;
-  margin: 30px auto;
-  padding: 40px;
+  margin: 0px auto;
+  padding: 10px 20px 200px;
   border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.7);
-  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #ff5416,
-    0 0 0.8rem #ff5416, 0 0 2.8rem #ff5416, inset 0 0 2rem #ff5416,
-    inset 0 0 0.8rem #ff5416;
 }
 .scoreboards {
   grid-area: score;
@@ -110,9 +107,6 @@ h2 {
 
 @media (min-width: 1200px) {
   body {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
     background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"),
       url("assets/stars.png");
     background-position: bottom, top, center;
@@ -140,9 +134,7 @@ h2 {
 
   .layout {
     display: grid;
-    grid-template-areas:
-      "title title title"
-      "global game score";
+    grid-template-areas: "global game score";
     grid-template-columns: 1fr calc(100vh - 17vh) 1fr;
   }
 
