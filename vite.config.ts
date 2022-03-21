@@ -8,7 +8,7 @@ export default defineConfig({
     strictPort: true,
     host: true,
     proxy: {
-      '/api': 'http://localhost:7071'
+      "/api": "http://localhost:7071"
     }
   },
   build: {
@@ -16,5 +16,6 @@ export default defineConfig({
     sourcemap: true,
     emptyOutDir: true
   },
+  publicDir: "../public",
   plugins: []
-})
+});
