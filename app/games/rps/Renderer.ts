@@ -26,6 +26,8 @@ export class Renderer {
     private spectator: boolean;
     private assetSource: IAssetSource;
 
+    public canvas: HTMLCanvasElement;
+
     constructor(gameRoot: HTMLElement, spectator: boolean = false, assetSource: IAssetSource = null) {
         this.loader = new Loader();
         this.gameRoot = gameRoot;
@@ -35,15 +37,15 @@ export class Renderer {
     }
 
     private resetElements() {
-        const canvas = document.createElement('canvas');
-        canvas.id = "game";
-        canvas.width = this.spectator ? 1280 : 512;
-        canvas.height = this.spectator ? 1280 : 512;
+        this.canvas = document.createElement('canvas');
+        this.canvas.id = "game";
+        this.canvas.width = this.spectator ? 1280 : 512;
+        this.canvas.height = this.spectator ? 1280 : 512;
 
         this.gameRoot.innerHTML = "";
-        this.gameRoot.appendChild(canvas);
+        this.gameRoot.appendChild(this.canvas);
 
-        this.ctx = canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d');
     }
 
     public async init() {

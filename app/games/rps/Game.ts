@@ -173,12 +173,19 @@ export class Game implements IGame {
 
         if (keyboardState.touchLocation?.x !== -1 || keyboardState.touchLocation?.y !== -1) {
             const touchLoc = {
-                x: keyboardState.touchLocation.x / this.camera.scale,
-                y: keyboardState.touchLocation.y / this.camera.scale
+                x: keyboardState.touchLocation.x,
+                y: keyboardState.touchLocation.y
             };
 
-            var dx = touchLoc.x - worldLoc.x;
-            var dy = touchLoc.y - worldLoc.y;
+            const targetRect = this.renderer.canvas.getBoundingClientRect();
+            const widthPercentage = (targetRect.width / this.renderer.canvas.width);
+            const heightPercentage = (targetRect.height / this.renderer.canvas.height);
+
+            const scaledWorldX = worldLoc.x * widthPercentage;
+            const scaledWorldY = worldLoc.y * heightPercentage;
+
+            var dx = touchLoc.x - scaledWorldX;
+            var dy = touchLoc.y - scaledWorldY;
             var angle = Math.atan2(dy, dx);
             var magnitude = 1.0;
             var velX = Math.cos(angle) * magnitude;
