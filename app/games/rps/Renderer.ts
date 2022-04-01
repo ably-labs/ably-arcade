@@ -167,21 +167,22 @@ export class Renderer {
             player.height
         );
 
-        let offset = -5;
+        let offsetY = player.height + 15;
+        let offsetX = player.width * 0.5;
 
         this.ctx.font = 'bold 15px sans-serif';
         this.ctx.fillStyle = "rgb(0,0,0)";
-        this.ctx.fillText(player.name, x - 1 + offset, y - 1 + offset);
-        this.ctx.fillText(player.name, x + 1 + offset, y - 1 + offset);
-        this.ctx.fillText(player.name, x - 1 + offset, y + offset);
-        this.ctx.fillText(player.name, x + 1 + offset, y + offset);
-        this.ctx.fillText(player.name, x - 1 + offset, y + 1 + offset);
-        this.ctx.fillText(player.name, x + 1 + offset, y + 1 + offset);
+        this.ctx.fillText(player.name, x - 1 + offsetX, y - 1 + offsetY);
+        this.ctx.fillText(player.name, x + 1 + offsetX, y - 1 + offsetY);
+        this.ctx.fillText(player.name, x - 1 + offsetX, y + offsetY);
+        this.ctx.fillText(player.name, x + 1 + offsetX, y + offsetY);
+        this.ctx.fillText(player.name, x - 1 + offsetX, y + 1 + offsetY);
+        this.ctx.fillText(player.name, x + 1 + offsetX, y + 1 + offsetY);
 
         this.ctx.fillStyle = "rgb(255,255,255)";
+        this.ctx.textAlign = "center"
 
-
-        this.ctx.fillText(player.name, x + offset, y + offset);
+        this.ctx.fillText(player.name, x + offsetX, y + offsetY);
     }
 }
 

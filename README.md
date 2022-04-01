@@ -28,3 +28,7 @@ To run the arcade localhost you need:
 
 - NodeJs & Jest
 - [Azure Functions Core Tools](?tabs=v4%2Clinux%2Ccsharp%2Cportal%2Cbash)
+
+## How to run a booth at an event
+
+[See google doc](https://docs.google.com/document/d/100xcsiQs2Il-sztTG6F4IkSu6yB94AVD4PS3HGXJTA4/edit?usp=sharing)
