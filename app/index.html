@@ -1,79 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Ably Arcade</title>
 
-<head>
-  <meta charset="utf-8" />
-  <title>Ably Arcade</title>
+    <script
+      charset="utf-8"
+      type="text/javascript"
+      src="//js.hsforms.net/forms/v2.js"
+    ></script>
+    <script src="./script.ts" type="module"></script>
 
-  <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
-  <script src="./script.ts" type="module"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="icon" type="image/png" href="assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="Ably Arcade" />
+    <meta
+      property="og:description "
+      content="The real home of realtime games"
+    />
+    <meta property="og:url" content="https://arcade.ably.dev/" />
+    <meta property="og:image" content="https://arcade.ably.dev/og.png" />
 
-  <link rel="stylesheet" href="./style.css" />
-  <link rel="icon" type="image/png" href="assets/favicon.ico">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta property="og:title" content="Ably Arcade" />
-  <meta property="og:description " content="The real home of realtime games" />
-  <meta property="og:url" content="https://arcade.ably.dev/" />
-  <meta property="og:image" content="https://arcade.ably.dev/og.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@ablyrealtime" />
+    <meta name="twitter:title" content="Ably Arcade" />
+    <meta
+      name="twitter:description"
+      content="The real home of realtime games"
+    />
+    <meta name="twitter:image" content="https://arcade.ably.dev/og.png" />
+  </head>
 
-</head>
-
-<body id="body">
-  <h1>Ably arcade</h1>
-  <div id="signup-form"></div>
-  <div id="arcade">
-    <div id="spectatorControls" class="spectator-controls">
-      <button class="start" id="spectatorControlsStartContest">Start Game</button>
-    </div>
-
-    <div class="layout">
-      <div class="scoreboard-container" id="global-scoreboard-container">
-          <section class="scoreboard">
-          <h2>All High Scores</h2>
-          <table id="global-scoreboard">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th class="score-number">Score</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </section>
+  <body id="body">
+    <h1>Ably arcade</h1>
+    <div id="signup-form"></div>
+    <div id="arcade">
+      <div id="spectatorControls" class="spectator-controls">
+        <button class="start" id="spectatorControlsStartContest">
+          Start Game
+        </button>
       </div>
-      <div class="scoreboards">
-        <div class="timer" id="timer">
-          00:00
+
+      <div class="layout">
+        <div class="scoreboard-container" id="global-scoreboard-container">
+          <section class="scoreboard">
+            <h2>All High Scores</h2>
+            <table id="global-scoreboard">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="score-number">Score</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="qr-code-container">
+              <div class="qr-code-banner">
+                <img src="assets/qr-url-code.png" alt="" />
+                <strong>https://arcade.ably.dev/</strong>
+              </div>
+              <div class="qr-code-icon">
+                <img src="assets/qr-icon.svg" alt="" />
+              </div>
+            </div>
+          </section>
         </div>
+        <div class="scoreboards">
+          <div class="timer" id="timer">00:00</div>
           <section class="scoreboard">
-          <h2>This Game Scores</h2>
-          <table id="scoreboard">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th class="score-number">Score</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </section>
+            <h2>This Game Scores</h2>
+            <table id="scoreboard">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="score-number">Score</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </section>
+        </div>
+        <div class="canvas-holder" id="game-root"></div>
       </div>
-       <div class="canvas-holder" id="game-root"></div>
+
+      <div class="player-messages" id="player-messages"></div>
     </div>
-    
-    <div class="player-messages" id="player-messages"></div>
 
-  </div>
+    <div id="spectate">Let me spectate</div>
 
-  <div id="spectate">Let me spectate</div>
-
-  <template id="scoreboard-row-template">
-    <tr>
-      <td data-name>Fred</td>
-      <td data-score class="score-number">100</td>
-    </tr>
-  </template>
-
-</body>
-
+    <template id="scoreboard-row-template">
+      <tr>
+        <td data-name>Fred</td>
+        <td data-score class="score-number">100</td>
+      </tr>
+    </template>
+  </body>
 </html>

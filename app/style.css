@@ -1,7 +1,7 @@
 @font-face {
   font-family: "text_me_oneregular";
-  src: url("./assets/textmeone-regular-webfont.woff2") format("woff2"),
-    url("./assets/textmeone-regular-webfont.woff") format("woff");
+  src: url("/assets/textmeone-regular-webfont.woff2") format("woff2"),
+    url("/assets/textmeone-regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -11,7 +11,7 @@ body {
   margin: 0;
   padding: 10px;
   font-family: "text_me_oneregular", Arial, Helvetica, sans-serif;
-  background-image: url("assets/stars.png");
+  background-image: url("/assets/stars.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -23,7 +23,8 @@ h1 {
   width: 375px;
   height: 60px;
   margin: 20px auto;
-  background: url(assets/ably.png) no-repeat top left, url(assets/arcade.png) no-repeat top right;
+  background: url(/assets/ably.png) no-repeat top left,
+    url(/assets/arcade.png) no-repeat top right;
   background-size: auto 40px, auto 40px;
   color: transparent;
   grid-area: title;
@@ -83,6 +84,7 @@ table {
 
 .scoreboard {
   display: none;
+  position: relative;
 }
 
 h2 {
@@ -108,7 +110,8 @@ h2 {
 
 .started h1 {
   height: 130px;
-  background: url(assets/ably.png) no-repeat top center, url(assets/arcade.png) no-repeat bottom center;
+  background: url(/assets/ably.png) no-repeat top center,
+    url(/assets/arcade.png) no-repeat bottom center;
   background-size: auto 60px, auto 60px;
 }
 
@@ -118,8 +121,8 @@ h2 {
 
 @media (min-width: 1200px) {
   body {
-    background-image: url("assets/bottomgrid.png"), url("assets/topgrid.png"),
-      url("assets/stars.png");
+    background-image: url("/assets/bottomgrid.png"), url("/assets/topgrid.png"),
+      url("/assets/stars.png");
     background-position: bottom, top, center;
     background-repeat: no-repeat;
     background-size: contain, contain, cover;
@@ -128,11 +131,11 @@ h2 {
   }
 
   .spectator-controls {
-      position: fixed;
-      top: 25%;
-      left: 50%;
-      z-index: 6;
-      transform: translate(-50%, -50%);
+    position: fixed;
+    top: 25%;
+    left: 50%;
+    z-index: 6;
+    transform: translate(-50%, -50%);
   }
 
   h1 {
@@ -183,7 +186,7 @@ h2 {
     bottom: 20px;
     height: 300px;
     width: 300px;
-    background: url(assets/arrows.png) center no-repeat;
+    background: url(/assets/arrows.png) center no-repeat;
     background-size: cover;
     background-blend-mode: color-burn;
     transform: translate(0);
@@ -297,5 +300,67 @@ h2 {
   }
   td {
     padding: 0.5em 1em;
+  }
+
+  .qr-code-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* text-align: center; */
+    margin: 20px;
+    cursor: pointer;
+  }
+
+  .qr-code-container strong {
+    display: block;
+    text-align: center;
+    font-size: 30px;
+    margin: 10px auto 0;
+    text-shadow: none;
+    color: white;
+  }
+
+  .qr-code-banner {
+    display: block;
+  }
+
+  .qr-code-banner img {
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .qr-code-banner:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0 14px 0;
+    content: "\00D7";
+    font-weight: 900;
+    color: black;
+    z-index: 1;
+    font-size: 42px;
+    line-height: 1;
+  }
+
+  .qr-code-icon {
+    display: none;
+  }
+
+  .minimise .qr-code-banner {
+    display: none;
+  }
+
+  .minimise .qr-code-icon {
+    display: inline-block;
+    background: white;
+    border-radius: 4px;
+  }
+
+  .qr-code-icon img {
+    height: 50px;
+    width: 50px;
+    display: block;
+    margin: 10px;
   }
 }

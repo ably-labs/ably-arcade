@@ -1,5 +1,5 @@
-import { GameRunner } from "./games/GameRunner";
-import { ArcadeContestHandler } from "./arcade-ui-helpers/ArcadeContestHandler";
+import {ArcadeContestHandler} from "./arcade-ui-helpers/ArcadeContestHandler";
+import {GameRunner} from "./games/GameRunner";
 
 export class ArcadeUI {
   public arcadeInstanceId: string;
@@ -25,23 +25,27 @@ export class ArcadeUI {
     this.gameRoot = document.getElementById("game-root") as HTMLElement;
 
     this.spectateButton = document.getElementById("spectate") as HTMLElement;
-    this.spectatorControls = document.getElementById("spectatorControls") as HTMLElement;
-    const spectatorStart = document.getElementById("spectatorControlsStartContest");
+    this.spectatorControls =
+        document.getElementById("spectatorControls") as HTMLElement;
+    const spectatorStart =
+        document.getElementById("spectatorControlsStartContest");
+    const qrContainer = document.querySelector(".qr-code-container");
 
-    spectatorStart.addEventListener("click", () => {
-      this.startContest();
+    spectatorStart.addEventListener("click", () => { this.startContest(); });
+
+    qrContainer.addEventListener("click", (e) => {
+        const parent = e.target.closest(".qr-code-container")
+      console.log(123, e.target, parent)
+      parent.classList.toggle("minimise");
     });
 
-    this.contestHandler = new ArcadeContestHandler(this.arcadeInstanceId, () => {
-      this.onEndContest();
-    });
+    this.contestHandler = new ArcadeContestHandler(
+        this.arcadeInstanceId, () => { this.onEndContest(); });
 
     this.eventListenerController = new AbortController();
   }
 
-  public setPlayerName(name: string) {
-    this.playerName = name;
-  }
+  public setPlayerName(name: string) { this.playerName = name; }
 
   public showGame(spectator: boolean = false) {
     this.spectator = spectator;
@@ -82,13 +86,12 @@ export class ArcadeUI {
       this.eventListenerController = new AbortController();
     }
 
-    const cancellationToken = { signal: this.eventListenerController.signal };
+    const cancellationToken = {signal : this.eventListenerController.signal};
 
     let captureMouse = false;
 
-    this.gameRoot.addEventListener("mousedown", (e) => {
-      captureMouse = true;
-    }, cancellationToken);
+    this.gameRoot.addEventListener("mousedown", (e) => { captureMouse = true; },
+                                   cancellationToken);
 
     this.gameRoot.addEventListener("mousemove", (e) => {
       if (captureMouse) {
@@ -111,10 +114,14 @@ export class ArcadeUI {
       runner.keyboard.removeTouch();
     }, cancellationToken);
 
-    this.gameRoot.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      runner.keyboard.touchLocation = touchEventsToCoords(e);
-    }, cancellationToken);  
+    this.gameRoot.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+        runner.keyboard.touchLocation = touchEventsToCoords(e);
+      },
+      cancellationToken
+    );
   }
 }
 
