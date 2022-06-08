@@ -8,7 +8,7 @@ console.log("Oh hai! 🖤");
 
 const requireSignup = true;
 
-const arcadeInstanceId = "my-game-id!";
+const arcadeInstanceId = "elixir-conf";
 const arcadeUi = new ArcadeUI(arcadeInstanceId);
 let runner: GameRunner = null;
 
