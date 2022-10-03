@@ -1,6 +1,7 @@
 {
-  "region": "na1",
-  "portalId": "6939709",
-  "formId": "81eebc85-dd87-4ca8-9672-0ae3687f005d",
-  "target": "#signup-form"
+    "region": "na1",
+    "portalId": "6939709",
+    "formId": "91c62c7d-3cdb-4b61-a4e5-8e690fb6180c",
+    "target": "#signup-form",
+    "version": "V2_PRERELEASE"
 }

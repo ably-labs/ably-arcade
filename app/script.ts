@@ -24,10 +24,9 @@ if (requireSignup) {
         HubSpotUi.hideForm();
 
         // (╯°□°）╯︵ ┻━┻
-        const firstName = form.data.data[1].value;
-        const lastName = form.data.data[2].value;
+        const username = form.data.data[0].value;
 
-        arcadeUi.setPlayerName(`${firstName} ${lastName}`);
+        arcadeUi.setPlayerName(`${username}`);
 
         startGame();
         arcadeUi.showGame();
