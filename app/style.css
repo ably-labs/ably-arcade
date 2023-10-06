@@ -32,6 +32,8 @@ h1 {
 
 #signup-form {
   max-width: 500px;
+  height: 80%;
+  overflow: scroll;
   margin: 0px auto;
   padding: 0px 10px;
   border-radius: 20px;
