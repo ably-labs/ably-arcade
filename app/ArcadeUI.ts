@@ -80,6 +80,7 @@ export class ArcadeUI {
 
   public bind(runner: GameRunner): void {
     this.contestHandler.runner = runner;
+    this.contestHandler.instantiateMap();
 
     if (this.eventListenerController) {
       this.eventListenerController.abort();

@@ -49,7 +49,6 @@ export class ArcadeContestHandler {
     });
 
     this.getGlobalHistory();
-    this.instantiateMap();
   }
 
   public async startContest() {
@@ -115,7 +114,7 @@ export class ArcadeContestHandler {
     await this.messages.display("Game over!", 5000);
   }
 
-  private async instantiateMap() {
+  public async instantiateMap() {
     const history = await this.channel.history();
     const historyMessage = history.items[0];
     const previousStateData = historyMessage?.data || [];
