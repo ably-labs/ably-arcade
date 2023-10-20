@@ -136,7 +136,7 @@ export class Player {
     }
 
     public static spectator(map: Map) {
-        return new Player(map, "Spectator", 0, 0, true);
+        return new Player(map, "Spectator", -10, -10, true);
     }
 
     public static spawnPlayerInSafeLocation(map: Map, name: string) {

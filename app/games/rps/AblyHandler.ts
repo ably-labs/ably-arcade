@@ -1,4 +1,4 @@
-import { Realtime, Types } from 'ably';
+import { Realtime, Rest, Types } from 'ably';
 import { Player } from './Player';
 
 export class AblyHandler {
@@ -43,6 +43,21 @@ export class AblyHandler {
 
     public async playerMetadata() {
         return await this.stateChannel.presence.get();
+    }
+
+    public async getMap(gameId: string) {
+        const rest = new Rest.Promise({ authUrl: '/api/ably-token-request' });
+        const stateChannel = rest.channels.get("control-messages:" + gameId);
+        const history = await stateChannel.history();
+        const historyMessage = history.items[0];
+        const previousStateData = historyMessage?.data || [];
+        
+        if (!previousStateData || previousStateData === undefined) {
+        console.log("Oh no! Map lost! Not updating.", history);
+        return;
+        }
+        
+        return previousStateData.seed;
     }
 
     private toPlayerMetadata(player: Player) {

@@ -113,7 +113,7 @@ export class ArcadeContestHandler {
 
     await this.messages.display("Game over!", 5000);
   }
-
+ 
   private async updateGlobalLeaderboard() {
     const history = await this.scoreChannel.history();
     const historyPage = history.items[0];

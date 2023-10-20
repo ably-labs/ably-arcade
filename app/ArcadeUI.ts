@@ -34,13 +34,14 @@ export class ArcadeUI {
     spectatorStart.addEventListener("click", () => { this.startContest(); });
 
     qrContainer.addEventListener("click", (e) => {
-        const parent = e.target.closest(".qr-code-container")
-      console.log(123, e.target, parent)
+        const parent = e.target.closest(".qr-code-container");
+      console.log(123, e.target, parent);
       parent.classList.toggle("minimise");
     });
 
     this.contestHandler = new ArcadeContestHandler(
-        this.arcadeInstanceId, () => { this.onEndContest(); });
+        this.arcadeInstanceId, () => { this.onEndContest(); }
+    );
 
     this.eventListenerController = new AbortController();
   }

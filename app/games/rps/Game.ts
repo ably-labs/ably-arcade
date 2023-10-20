@@ -38,8 +38,8 @@ export class Game implements IGame {
     public constructor(gameId: string, gameRoot: HTMLElement, spectator: boolean = false, assetSource: IAssetSource = null) {
         this.gameId = gameId;
         this.spectator = spectator;
+        this.ablyHandler = new AblyHandler();
 
-        this.map = new GameMap(Level[0]);
         this.renderer = new Renderer(gameRoot, spectator, assetSource);
         this.tickRate = 10;
 
@@ -51,8 +51,13 @@ export class Game implements IGame {
         this.keybindings.set(Keyboard.UP, (d) => { d.y = -1 });
         this.keybindings.set(Keyboard.DOWN, (d) => { d.y = 1 });
 
-        this.ablyHandler = new AblyHandler();
         this.colorChangeInterval = 5_000;
+    }
+    
+    public async loadMap() {
+        const seed = await this.ablyHandler.getMap(this.gameId);
+        const mapSelection = Math.floor(seed % (Level.length - 1));
+        this.map = new GameMap(Level[mapSelection]);
     }
 
     public async preStart(playerName: string = null) {
