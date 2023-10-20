@@ -140,10 +140,6 @@ export class Player {
     }
 
     public static spawnPlayerInSafeLocation(map: Map, name: string) {
-        if (this.spectator) {
-            return new Player(map, name, -10, -10, true);
-        }
-        
         const startLocation = map.pickSpawnPoint();
         return new Player(map, name, startLocation.left, startLocation.top);
     }
