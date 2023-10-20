@@ -1,4 +1,4 @@
-import { Realtime, Types } from 'ably';
+import { Realtime, Rest, Types } from 'ably';
 import { Player } from './Player';
 
 export class AblyHandler {
@@ -46,7 +46,8 @@ export class AblyHandler {
     }
 
     public async getMap(gameId: string) {
-        const stateChannel = this.connection.channels.get("control-messages:" + gameId);
+        const rest = new Rest.Promise({ authUrl: '/api/ably-token-request' });
+        const stateChannel = rest.channels.get("control-messages:" + gameId);
         const history = await stateChannel.history();
         const historyMessage = history.items[0];
         const previousStateData = historyMessage?.data || [];
