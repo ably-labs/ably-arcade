@@ -40,20 +40,20 @@ export class Game implements IGame {
         this.spectator = spectator;
         this.ablyHandler = new AblyHandler();
 
-        this.getMap();
+        this.getMap().then(() => {
+            this.renderer = new Renderer(gameRoot, spectator, assetSource);
+            this.tickRate = 10;
 
-        this.renderer = new Renderer(gameRoot, spectator, assetSource);
-        this.tickRate = 10;
+            this.sqrt2 = Math.sqrt(1 / 2);
 
-        this.sqrt2 = Math.sqrt(1 / 2);
+            this.keybindings = new Map<Number, (delta: MovementDelta) => void>();
+            this.keybindings.set(Keyboard.LEFT, (d) => { d.x = -1 });
+            this.keybindings.set(Keyboard.RIGHT, (d) => { d.x = 1 });
+            this.keybindings.set(Keyboard.UP, (d) => { d.y = -1 });
+            this.keybindings.set(Keyboard.DOWN, (d) => { d.y = 1 });
 
-        this.keybindings = new Map<Number, (delta: MovementDelta) => void>();
-        this.keybindings.set(Keyboard.LEFT, (d) => { d.x = -1 });
-        this.keybindings.set(Keyboard.RIGHT, (d) => { d.x = 1 });
-        this.keybindings.set(Keyboard.UP, (d) => { d.y = -1 });
-        this.keybindings.set(Keyboard.DOWN, (d) => { d.y = 1 });
-
-        this.colorChangeInterval = 5_000;
+            this.colorChangeInterval = 5_000;
+        });
     }
     
     private async getMap() {
