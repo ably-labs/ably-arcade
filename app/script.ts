@@ -37,12 +37,13 @@ if (requireSignup) {
     arcadeUi.showGame();
 }
 
-function startGame(spectator: boolean = false) {
+async function startGame(spectator: boolean = false) {
     if (runner) {
         runner.stop();
     }
 
     const game = new Game(arcadeInstanceId, arcadeUi.gameRoot, spectator);
+    await game.loadMap();
     runner = new GameRunner(game);
     runner.run(arcadeUi.playerName);
     arcadeUi.bind(runner);
