@@ -57,7 +57,9 @@ export class Game implements IGame {
     }
     
     private async getMap() {
+        console.log("GETTING MAP");
         const seed = await this.ablyHandler.getMap(this.gameId);
+        console.log("MAP");
         const mapSelection = Math.floor(seed % (Level.length - 1));
         this.map = new GameMap(Level[mapSelection]);
     }
