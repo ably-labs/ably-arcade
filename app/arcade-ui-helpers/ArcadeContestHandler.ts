@@ -113,19 +113,6 @@ export class ArcadeContestHandler {
 
     await this.messages.display("Game over!", 5000);
   }
-
-  public async instantiateMap() {
-    const history = await this.channel.history();
-    const historyMessage = history.items[0];
-    const previousStateData = historyMessage?.data || [];
-    
-    if (!previousStateData || previousStateData === undefined) {
-      console.log("Oh no! Map lost! Not updating.", history);
-      return;
-    }
-    
-    this.runner.game.startContest(previousStateData.duration, previousStateData.seed);
-  }
  
   private async updateGlobalLeaderboard() {
     const history = await this.scoreChannel.history();

@@ -45,6 +45,20 @@ export class AblyHandler {
         return await this.stateChannel.presence.get();
     }
 
+    public async getMap(gameId: string) {
+        const stateChannel = this.connection.channels.get("control-messages:" + gameId);
+        const history = await stateChannel.history();
+        const historyMessage = history.items[0];
+        const previousStateData = historyMessage?.data || [];
+        
+        if (!previousStateData || previousStateData === undefined) {
+        console.log("Oh no! Map lost! Not updating.", history);
+        return;
+        }
+        
+        return previousStateData.seed;
+    }
+
     private toPlayerMetadata(player: Player) {
         return {
             'id': player.id,
