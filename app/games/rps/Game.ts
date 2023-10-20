@@ -39,9 +39,9 @@ export class Game implements IGame {
         this.gameId = gameId;
         this.spectator = spectator;
         this.ablyHandler = new AblyHandler();
-        const seed = this.ablyHandler.getMap(gameId);
-        const mapSelection = Math.floor(seed % (Level.length - 1));
-        this.map = new GameMap(Level[0]);
+
+        this.getMap();
+
         this.renderer = new Renderer(gameRoot, spectator, assetSource);
         this.tickRate = 10;
 
@@ -54,6 +54,12 @@ export class Game implements IGame {
         this.keybindings.set(Keyboard.DOWN, (d) => { d.y = 1 });
 
         this.colorChangeInterval = 5_000;
+    }
+    
+    private async getMap() {
+        const seed = await this.ablyHandler.getMap(this.gameId);
+        const mapSelection = Math.floor(seed % (Level.length - 1));
+        this.map = new GameMap(Level[mapSelection]);
     }
 
     public async preStart(playerName: string = null) {
